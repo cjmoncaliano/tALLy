@@ -10,3 +10,7 @@ def hello_world():
 @app.route('/')
 def index():
     return render_template("index.html")
+
+@app.route('/aster_chart')
+def aster_chart():
+    return render_template("aster_chart.html")
