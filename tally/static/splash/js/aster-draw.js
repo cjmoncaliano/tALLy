@@ -24,7 +24,7 @@ var outlineArc = d3.svg.arc()
         .innerRadius(innerRadius)
         .outerRadius(radius);
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#aster-chart").append("svg")
     .attr("width", width)
     .attr("height", height)
     .append("g")

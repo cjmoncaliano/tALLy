@@ -1,5 +1,6 @@
 body {
   font: 10px sans-serif;
+  float: center;
 }
 
 .axis path,
