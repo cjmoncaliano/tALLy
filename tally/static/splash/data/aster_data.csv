@@ -1,0 +1,6 @@
+"id","order","score","weight","color","label"
+"CO",1.1,59,0.5,"#9E0041","Collaboration"
+"LE",1.3,24,0.5,"#C32F4B","Leadership"
+"RE",2,98,1,"#E1514B","Resilience"
+"CM",3,60,1,"#F47245","Communication"
+"CS",4,74,1,"#FB9F59","Problem Solving Skills"

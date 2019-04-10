@@ -8,4 +8,3 @@ client, db = init_mongodb(app.config["DB_NAME"], app.config["DB_PORT"])
 
 #import views
 from . import views
-
