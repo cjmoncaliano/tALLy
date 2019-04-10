@@ -11,6 +11,11 @@ def hello_world():
 def index():
     return render_template("index.html")
 
-@app.route('/aster_chart')
-def aster_chart():
-    return render_template("aster_chart.html")
+@app.route('/login')
+def login():
+    return render_template("login.html")
+
+@app.route('/register')
+def register():
+    return render_template("register.html")
+
