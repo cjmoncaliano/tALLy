@@ -13,4 +13,5 @@ login_manager.init_app(app)
 
 #import views
 from . import views
+from . import forms
 

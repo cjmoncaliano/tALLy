@@ -1,5 +1,6 @@
 from tally import app, db
-from flask import render_template
+from tally.forms import ApplicantForm
+from flask import render_template, redirect
 ### Test Server ###
 @app.route('/helloworld')
 def hello_world():
@@ -19,9 +20,14 @@ def login():
 def create():
     return render_template("create_account.html")
 
-@app.route('/input_resume')
+@app.route('/input_resume', methods=['GET', 'POST'])
 def input_resume():
-    return render_template("input_resume.html")
+    form = ApplicantForm()
+    print(form.validate_on_submit()) #returns false
+    if form.is_submitted(): #submitting without validating
+        print(form.school.data, form.gpa.data, form.major.data, form.email.data, form.phone.data)
+        return redirect('/') #redirects to home screen
+    return render_template("input_resume.html", form=form)
 
 @app.route('/register')
 def register():
