@@ -33,7 +33,8 @@ def login_user():
             user_obj = User(user["id"], user["role"])
             login_user(user_obj)
             return redirect(url_for('/profile'))
-    return redirect(url_for('login_user'))
+    else:
+        return redirect(url_for('login'))
 
 
 @app.route('/create')
