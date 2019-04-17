@@ -16,6 +16,10 @@ def index():
 def login():
     return render_template("login.html")
 
+@app.route('/create')
+def create():
+    return render_template("create_account.html")
+
 @app.route('/input_resume')
 def input_resume():
     return render_template('input_resume.html')
