@@ -19,6 +19,10 @@ def login():
 def create():
     return render_template("create_account.html")
 
+@app.route('/input_resume')
+def input_resume():
+    return render_template("input_resume.html")
+
 @app.route('/register')
 def register():
     return render_template("register.html")
