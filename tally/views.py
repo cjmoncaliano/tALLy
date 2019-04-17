@@ -1,4 +1,5 @@
 from tally import app, db
+from tally.forms import ApplicantForm
 from flask import render_template
 ### Test Server ###
 @app.route('/helloworld')
@@ -14,6 +15,10 @@ def index():
 @app.route('/login')
 def login():
     return render_template("login.html")
+
+@app.route('/input_resume')
+def input_resume():
+    return render_template('input_resume.html')
 
 @app.route('/register')
 def register():
