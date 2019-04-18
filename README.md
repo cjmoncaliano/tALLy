@@ -1,4 +1,4 @@
-# tALLy
+# Candor
 
 How to run:  
 1. Go to db folder
