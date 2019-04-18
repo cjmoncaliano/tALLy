@@ -1,9 +1,9 @@
 from tally import app, db, login_manager
 from tally.forms import ApplicantForm, RegistrationForm, LoginForm
+from tally.models import User
 from flask import render_template, redirect, url_for, request
 from flask_login import login_user, logout_user, login_required, current_user
 import uuid
-from tally.models import User
 ### Login ###
 @login_manager.user_loader
 def load_user(userID):
@@ -57,24 +57,6 @@ def register():
 @app.route('/input_resume')
 def input_resume():
     return render_template('input_resume.html')
-"""
-@app.route('/register')
-def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = db.users.find_one({"username": form.username.data})
-        if user:
-            return "Error: username taken"
-        id = str(uuid.uuid4())
-        db.users.insert_one({
-            "username": form.username.data,
-            # TODO: change this to hash and salt
-            "password": form.password.data,
-            "id": id,
-        })
-        return redirect(url_for('login'))
-    else:
-        return redirect(url_for('create')) """
 
 
 @app.route('/submit_resume', methods=['GET', 'POST'])
