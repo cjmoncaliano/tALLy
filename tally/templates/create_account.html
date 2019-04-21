@@ -35,14 +35,31 @@
       *********************************************************************************************************************************************************** -->
   <div id="login-page">
     <div class="container">
-      <form class="form-login" action="index.html">
+      <form class="form-login" action="{{ url_for('register') }}" method="post">
+        {{ form.csrf_token }}
         <h2 class="form-login-heading">create an account</h2>
         <div class="login-wrap">
-          <input type="text" class="form-control" placeholder="User ID" autofocus>
+          <div>{{ form.username(class="form-control", placeholder="Username")}}</div>
+          <br />
+          <div>{{ form.password(class="form-control", placeholder="Password") }}</div>
           <br>
-          <input type="password" class="form-control" placeholder="Password">
+          <div>
+            {{ form.role.label }}
+            {{ form.role }}
+          </div>
           <br>
-          <button class="btn btn-theme btn-block" href="index.html" type="submit"><i class="fa fa-lock"></i> CREATE ACCOUNT</button>
+          <!--
+          <input type="password" class="form-control" placeholder="Password" name="password" >
+          <br>
+          <select name="role" form="form-login" selected="student">
+            <option value="student">Student</option>
+            <option value="recruiter">Recruiter</option>
+          </select>
+
+          <button class="btn btn-theme btn-block" href="register" type="submit"><i class="fa fa-lock"></i> CREATE ACCOUNT</button>-->
+          <div>
+            {{ form.submit(class="btn btn-theme btn-block") }}
+          </div>
           <hr>
           <div class="registration">
             Already have an account?<br/>
