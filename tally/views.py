@@ -26,10 +26,9 @@ def input_resume():
     work = WorkExperience()
     activity = ExtraActivity()
     course = CourseWork()
-    print(form.validate_on_submit()) #returns false
-    if form.is_submitted(): #submitting without validating
+    if form.is_submitted() and work.is_submitted(): #submitting without validating
         print(form.school.data, form.gpa.data, form.major.data, form.email.data, form.phone.data, work.company.data, work.role.data, work.desc.data, activity.role.data, activity.group.data, activity.desc.data, course.title.data, course.category.data, course.desc.data)
-        return redirect('/') #redirects to home screen
+        return redirect('/profile') #redirects to home screen
     return render_template("input_resume.html", form=form, work=work, activity=activity, course=course)
 
 @app.route('/register')
