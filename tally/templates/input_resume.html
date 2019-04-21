@@ -508,6 +508,35 @@
           </div>
           <!-- col-lg-12-->
         </div>
+        <div class="row mt">
+          <div class="col-lg-12">
+            <div class="form-panel">
+              <h4 class="mb"> Coursework </h4>
+              <form class="form-horizontal style-form" action="" method="post">
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label"> Course Name</label>
+                  <div class="col-sm-10">
+                    {{ course.title(class_="form-control") }}
+                  </div>
+                </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 col-sm-2 control-label"> Category </label>
+                    <div class="col-sm-10">
+                      {{ course.category(class_="form-control") }}  </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="col-sm-2 col-sm-2 control-label"> Description </label>
+                    <div class="col-sm-10">
+                      {{ course.desc(class_="form-control") }}
+                      <span class="help-block"> Ie."I worked on a group project and final presentation."</span>
+                    </div>
+                  </div>
+              </form>
+            </div>
+          </div>
+          <!-- col-lg-12-->
+        </div>
         <!-- /row -->
         <!-- INLINE FORM ELELEMNTS -->
         <div class="row mt">

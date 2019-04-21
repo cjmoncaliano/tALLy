@@ -16,6 +16,13 @@ class ExtraActivity(FlaskForm):
     role = StringField('Role/Title')
     
     desc = StringField('Description')
+    
+class CourseWork(FlaskForm):
+    title = StringField('Company Name')
+    
+    category = StringField('Role/Title')
+    
+    desc = StringField('Description')
 
 class ApplicantForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
@@ -27,6 +34,8 @@ class ApplicantForm(FlaskForm):
     major = StringField('Major(s)/Minor(s)', validators=[DataRequired()])
     
     phone = StringField('Phone Number', validators=[DataRequired()])
+    
+    #course = CourseWork()
     
     submit = SubmitField('Done')
     
