@@ -64,10 +64,6 @@ def register():
         print(form.errors)
         return render_template('create_account.html', form = form)
 
-@app.route('/input_resume')
-def input_resume():
-    return render_template('input_resume.html')
-
 
 @app.route('/submit_resume', methods=['GET', 'POST'])
 def submit_resume():
