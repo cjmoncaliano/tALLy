@@ -53,10 +53,10 @@
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered"><a href="/profile"><img src="static/img/anon.jpg" class="img-circle" width="80"></a></p>
+          <p class="centered"><a href="/dashboard"><img src="static/img/anon.jpg" class="img-circle" width="80"></a></p>
           <h5 class="centered"> Anon </h5>
           <li class="mt">
-            <a class="active" href="">
+            <a class="active" href="/dashboard">
               <i class="fa fa-dashboard"></i>
               <span>Dashboard</span>
               </a>
@@ -100,7 +100,7 @@
                       <tr>
                         <td>
                           <!-- <p>Supply Chain Technology Consultant</p> -->
-                          <a href="basic_table.html#"> Supply Chain Technology Consultant </a>
+                          <a href="basic_table.html#"> {{ user_info.open_roles[0].role}} </a>
                         </td>
                         <td class="hidden-phone">Business & Technology Integration</td>
                         <td> 129 </td>
