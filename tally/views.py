@@ -1,5 +1,5 @@
 from tally import app, db, login_manager
-from tally.forms import ApplicantForm, WorkExperience, ExtraActivity, CourseWork, RegistrationForm, LoginForm
+from tally.forms import ApplicantForm, WorkExperience, ExtraActivity, CourseWork, JobForm, RegistrationForm, LoginForm
 from tally.models import User
 from flask import render_template, redirect, url_for, request
 from flask_login import login_user, logout_user, login_required, current_user
@@ -43,6 +43,16 @@ def input_resume():
         print("form was submitted")
         return redirect('/profile') #redirects to home screen
     return render_template("input_resume.html", form=form, work=work, activity=activity, course=course)
+
+@app.route('/role_builder', methods=['GET', 'POST'])
+def role_builder():
+    jobform = JobForm()
+    if jobform.is_submitted(): #submitting without validating
+        print("form was submitted")
+        print(jobform.company.data, jobform.role.data, jobform.team.data, jobform.description.data)
+        print(jobform.deadline.data, jobform.major.data, jobform.skills.data, jobform.year.data)
+        return redirect('/') #redirects to home screen
+    return render_template("role_builder.html", jobform=jobform)
 
 @app.route('/register', methods = ["GET", "POST"])
 def register():

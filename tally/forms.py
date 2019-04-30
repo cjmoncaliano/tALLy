@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SelectField, SubmitField
+from wtforms import StringField, PasswordField, SelectField, SelectMultipleField, SubmitField
 from wtforms.validators import DataRequired
 
 class WorkExperience(FlaskForm):
@@ -23,7 +23,24 @@ class ApplicantForm(FlaskForm):
     gpa = StringField('GPA', validators=[DataRequired()])
     major = StringField('Major(s)/Minor(s)', validators=[DataRequired()])
     phone = StringField('Phone Number', validators=[DataRequired()])
-    submit = SubmitField('Done')
+    submit = SubmitField('Submit')
+
+class JobForm(FlaskForm):
+    company = StringField('Company', validators=[DataRequired()])
+    role = StringField('Role/Title', validators=[DataRequired()])
+    team = StringField('Team', validators=[DataRequired()])
+    description = StringField('Description', validators=[DataRequired()])
+    deadline = StringField('Application Deadline', validators=[DataRequired()])
+    qualities = SelectMultipleField('Top Qualities', choices =[('collaboration', 'Collaboration'), \
+        ('oral_comm', 'Oral Communication'), \
+        ('conflict_resolution', 'Conflict Resolution'), \
+        ('dedication', 'Dedication'), \
+        ('leadershi', 'Leadership'), \
+        ('adaptability', 'Adaptability'), \
+        ('systems_thinking', 'Systems Thinking')],validators=[DataRequired()])
+    major = StringField('Preferred Major(s)/Minor(s)', validators=[DataRequired()])
+    year = StringField('School Year', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 class RegistrationForm(FlaskForm):
     username = StringField('User Name', validators=[DataRequired()])
