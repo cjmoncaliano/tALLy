@@ -50,7 +50,7 @@ def role_builder():
     if jobform.is_submitted(): #submitting without validating
         print("form was submitted")
         print(jobform.company.data, jobform.role.data, jobform.team.data, jobform.description.data)
-        print(jobform.deadline.data, jobform.major.data, jobform.skills.data, jobform.year.data)
+        print(jobform.deadline.data, jobform.major.data, jobform.qualities.data, jobform.year.data)
         return redirect('/') #redirects to home screen
     return render_template("role_builder.html", jobform=jobform)
 

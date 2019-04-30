@@ -35,7 +35,7 @@ class JobForm(FlaskForm):
         ('oral_comm', 'Oral Communication'), \
         ('conflict_resolution', 'Conflict Resolution'), \
         ('dedication', 'Dedication'), \
-        ('leadershi', 'Leadership'), \
+        ('leadership', 'Leadership'), \
         ('adaptability', 'Adaptability'), \
         ('systems_thinking', 'Systems Thinking')],validators=[DataRequired()])
     major = StringField('Preferred Major(s)/Minor(s)', validators=[DataRequired()])
