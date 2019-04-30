@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="author" content="Dashboard">
   <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-  <title> Candor</title>
+  <title>Dashio - Bootstrap Admin Template</title>
 
   <!-- Favicons -->
   <link href="static/img/favicon.png" rel="icon">
@@ -42,7 +42,7 @@
         <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
       </div>
       <!--logo start-->
-      <a href="index.html" class="logo"><b>CAND<span>OR</span></b></a>
+      <a href="index.html" class="logo"><b>DASH<span>IO</span></b></a>
       <!--logo end-->
       <div class="nav notify-row" id="top_menu">
         <!--  notification start -->
@@ -244,13 +244,40 @@
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered"><a href="/profile"><img src="/static/img/anon.jpg" class="img-circle" width="80"></a></p>
-          <h5 class="centered"> Anon </h5>
+          <p class="centered"><a href="/profile"><img src="/templates/img/gabe.jpg" class="img-circle" width="80"></a></p>
+          <h5 class="centered">Richard Daya</h5>
           <li class="mt">
             <a href="index.html">
               <i class="fa fa-dashboard"></i>
               <span>Dashboard</span>
               </a>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-desktop"></i>
+              <span>UI Elements</span>
+              </a>
+            <ul class="sub">
+              <li><a href="general.html">General</a></li>
+              <li><a href="buttons.html">Buttons</a></li>
+              <li><a href="panels.html">Panels</a></li>
+              <li><a href="font_awesome.html">Font Awesome</a></li>
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-cogs"></i>
+              <span>Components</span>
+              </a>
+            <ul class="sub">
+              <li><a href="grids.html">Grids</a></li>
+              <li><a href="calendar.html">Calendar</a></li>
+              <li><a href="gallery.html">Gallery</a></li>
+              <li><a href="todo_list.html">Todo List</a></li>
+              <li><a href="dropzone.html">Dropzone File Upload</a></li>
+              <li><a href="inline_editor.html">Inline Editor</a></li>
+              <li><a href="file_upload.html">Multiple File Upload</a></li>
+            </ul>
           </li>
           <li class="sub-menu">
             <a class="active" href="javascript:;">
@@ -267,6 +294,24 @@
           </li>
           <li class="sub-menu">
             <a href="javascript:;">
+              <i class="fa fa-th"></i>
+              <span>Data Tables</span>
+              </a>
+            <ul class="sub">
+              <li><a href="basic_table.html">Basic Table</a></li>
+              <li><a href="responsive_table.html">Responsive Table</a></li>
+              <li><a href="advanced_table.html">Advanced Table</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="inbox.html">
+              <i class="fa fa-envelope"></i>
+              <span>Mail </span>
+              <span class="label label-theme pull-right mail-info">2</span>
+              </a>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
               <i class=" fa fa-bar-chart-o"></i>
               <span>Charts</span>
               </a>
@@ -275,6 +320,16 @@
               <li><a href="chartjs.html">Chartjs</a></li>
               <li><a href="flot_chart.html">Flot Charts</a></li>
               <li><a href="xchart.html">xChart</a></li>
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-comments-o"></i>
+              <span>Chat Room</span>
+              </a>
+            <ul class="sub">
+              <li><a href="lobby.html">Lobby</a></li>
+              <li><a href="chat_room.html"> Chat Room</a></li>
             </ul>
           </li>
         </ul>
@@ -290,11 +345,12 @@
       <section class="wrapper">
         <h3> Create Your Candor Chart </h3>
         <!-- BASIC FORM ELELEMNTS -->
-        <form class="form-horizontal style-form" action="" method="post">
         <div class="row mt">
           <div class="col-lg-12">
             <div class="form-panel">
+            <div class="form-group">
               <h4 class="mb"><b> Education <b></h4>
+              <form class="form-horizontal style-form" action="" method="post" novalidate>
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label"> School Name </label>
 
@@ -335,14 +391,15 @@
                   {{ form.phone(class_="form-control") }}
                 </div>
               </div>
+                  {{ form.submit(class_="btn btn-theme") }}
+              </form>
             </div>
           </div>
-        </div>
-      </div>
         <div class="row mt">
           <div class="col-lg-12">
             <div class="form-panel">
               <h4 class="mb"> <b> Work Experience <b> </h4>
+              <form class="form-horizontal style-form" action="" method="post">
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label"> Company Name</label>
                   <div class="col-sm-10" required>
@@ -372,6 +429,7 @@
                       <span class="help-block"> Ie."I performed data analysis for our internal legal team."</span>
                     </div>
                   </div>
+              </form>
             </div>
           </div>
           <!-- col-lg-12-->
@@ -419,6 +477,7 @@
           <div class="col-lg-12">
             <div class="form-panel">
               <h4 class="mb"> <b> Coursework <b></h4>
+              <form class="form-horizontal style-form" action="" method="post">
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label"> Course Name</label>
                   <div class="col-sm-10">
@@ -438,12 +497,153 @@
                       <span class="help-block"> Ie."I worked on a group project and final presentation."</span>
                     </div>
                   </div>
-                      {{ form.submit(class_="btn btn-theme")}}
+              </form>
             </div>
           </div>
           <!-- col-lg-12-->
         </div>
-      </form>
+        <!-- /row -->
+        <!-- INLINE FORM ELELEMNTS -->
+        <div class="row mt">
+          <div class="col-lg-12">
+            <div class="form-panel">
+              <h4 class="mb"><i class="fa fa-angle-right"></i> Inline Form</h4>
+              <form class="form-inline" role="form">
+                <div class="form-group">
+                  <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                  <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                  <label class="sr-only" for="exampleInputPassword2">Password</label>
+                  <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-theme">Sign in</button>
+              </form>
+            </div>
+            <!-- /form-panel -->
+          </div>
+          <!-- /col-lg-12 -->
+        </div>
+        <!-- /row -->
+        <!-- INPUT MESSAGES -->
+        <div class="row mt">
+          <div class="col-lg-12">
+            <div class="form-panel">
+              <h4 class="mb"><i class="fa fa-angle-right"></i> Input Messages</h4>
+              <form class="form-horizontal style-form" action="" method="post"">
+                <div class="form-group has-success">
+                  <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">Input with success</label>
+                  <div class="col-lg-10">
+                    <input type="text" class="form-control" id="inputSuccess">
+                  </div>
+                </div>
+                <div class="form-group has-warning">
+                  <label class="col-sm-2 control-label col-lg-2" for="inputWarning">Input with warning</label>
+                  <div class="col-lg-10">
+                    <input type="text" class="form-control" id="inputWarning">
+                  </div>
+                </div>
+                <div class="form-group has-error">
+                  <label class="col-sm-2 control-label col-lg-2" for="inputError">Input with error</label>
+                  <div class="col-lg-10">
+                    <input type="text" class="form-control" id="inputError">
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!-- /form-panel -->
+          </div>
+          <!-- /col-lg-12 -->
+        </div>
+        <!-- /row -->
+        <!-- INPUT MESSAGES -->
+        <div class="row mt">
+          <div class="col-lg-12">
+            <div class="form-panel">
+              <h4 class="mb"><i class="fa fa-angle-right"></i> Checkboxes, Radios & Selects</h4>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" value="">
+                  Option one is this and that&mdash;be sure to include why it's great
+                  </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                  Option one is this and that&mdash;be sure to include why it's great
+                  </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                  Option two can be something else and selecting it will deselect option one
+                  </label>
+              </div>
+              <hr>
+              <label class="checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
+                </label>
+              <label class="checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox2" value="option2"> 2
+                </label>
+              <label class="checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox3" value="option3"> 3
+                </label>
+              <hr>
+              <select class="form-control">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              <br>
+              <select multiple class="form-control">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+            </div>
+            <!-- /form-panel -->
+          </div>
+          <!-- /col-lg-12 -->
+          <!-- CUSTOM TOGGLES -->
+          <div class="col-lg-12">
+            <div class="form-panel">
+              <h4 class="mb"><i class="fa fa-angle-right"></i> Custom Toggles</h4>
+              <div class="row mt">
+                <div class="col-sm-6 text-center">
+                  <input type="checkbox" checked="" data-toggle="switch" />
+                </div>
+                <div class="col-sm-6 text-center">
+                  <input type="checkbox" data-toggle="switch" />
+                </div>
+              </div>
+              <div class="row mt">
+                <div class="col-sm-6 text-center">
+                  <div class="switch switch-square" data-on-label="<i class=' fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
+                    <input type="checkbox" />
+                  </div>
+                </div>
+                <div class="col-sm-6 text-center">
+                  <div class="switch switch-square" data-on-label="<i class=' fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
+                    <input type="checkbox" checked="" />
+                  </div>
+                </div>
+              </div>
+              <div class="row mt">
+                <div class="col-sm-6 text-center">
+                  <input type="checkbox" disabled data-toggle="switch" />
+                </div>
+                <div class="col-sm-6 text-center">
+                  <input type="checkbox" checked disabled data-toggle="switch" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- /row -->
       </section>
       <!-- /wrapper -->
@@ -454,8 +654,17 @@
     <footer class="site-footer">
       <div class="text-center">
         <p>
-          &copy; Copyrights <strong> Candor </strong>. All Rights Reserved
+          &copy; Copyrights <strong>Dashio</strong>. All Rights Reserved
         </p>
+        <div class="credits">
+          <!--
+            You are NOT allowed to delete the credit link to TemplateMag with free version.
+            You can delete the credit link only if you bought the pro version.
+            Buy the pro version with working PHP/AJAX contact form: https://templatemag.com/dashio-bootstrap-admin-template/
+            Licensing information: https://templatemag.com/license/
+          -->
+          Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
+        </div>
         <a href="form_component.html#" class="go-top">
           <i class="fa fa-angle-up"></i>
           </a>
