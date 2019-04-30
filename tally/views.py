@@ -63,7 +63,7 @@ def register():
     else:
         print(form.errors)
         return render_template('create_account.html', form = form)
-
+      
 @app.route('/submit_resume', methods=['GET', 'POST'])
 def submit_resume():
     form = ApplicantForm()
