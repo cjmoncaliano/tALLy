@@ -23,6 +23,8 @@ def login():
     if request.method == 'POST' and form.validate_on_submit():
         user = db.users.find_one({"username":form.username.data, \
         "password": form.password.data})
+        print(form.username.data)
+        print(user)
         if user is None:
             return "Invalid Credentials"
         else:
@@ -34,13 +36,23 @@ def login():
         return render_template("login.html", form=form)
 
 @app.route('/input_resume', methods=['GET', 'POST'])
+@login_required
 def input_resume():
+    if current_user.get_role() != "student":
+        return "You are not allowed to access this page!"
     form = ApplicantForm()
     work = WorkExperience()
     activity = ExtraActivity()
     course = CourseWork()
     if form.is_submitted() and work.is_submitted(): #submitting without validating
-        print("form was submitted")
+        print(form.school.data, form.gpa.data, form.major.data, form.email.data, form.phone.data)
+        db.users.find_one_and_update({"id": current_user.get_id()}, {"$set": {"school": form.school.data, "major": form.major.data, "email": form.email.data, "phone": form.phone.data}})
+        if work.company.data != "" and work.company.data is not None:
+            db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"work_exps": {"company": work.company.data, "role": work.role.data, "desc": work.desc.data}}}, upsert=True)
+        if activity.group.data != "" and activity.group.data is not None:
+            db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"activity": {"group": activity.group.data, "role": activity.role.data, "desc": activity.desc.data}}}, upsert=True)
+        if course.title.data != "" and course.title.data is not None:
+            db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"course": {"title": course.title.data, "role": course.category.data, "desc": course.desc.data}}}, upsert=True)
         return redirect('/profile') #redirects to home screen
     return render_template("input_resume.html", form=form, work=work, activity=activity, course=course)
 
@@ -74,6 +86,7 @@ def register():
         print(form.errors)
         return render_template('create_account.html', form = form)
 
+'''
 @app.route('/submit_resume', methods=['GET', 'POST'])
 def submit_resume():
     form = ApplicantForm()
@@ -82,12 +95,15 @@ def submit_resume():
         print(form.school.data, form.gpa.data, form.major.data, form.email.data, form.phone.data)
         return redirect('/') #redirects to home screen
     return render_template("input_resume.html", form=form)
-
+'''
 
 @app.route('/profile')
 @login_required
 def profile():
-    return render_template("profile.html")
+    print(current_user.get_id())
+    user_info = db.users.find_one({"id": current_user.get_id()})
+    print(user_info)
+    return render_template("profile.html", user_info = user_info)
 
 @app.route('/logout')
 @login_required
