@@ -91,8 +91,9 @@ def submit_resume():
 @login_required
 def profile():
     print(current_user.get_id())
-    user_info = db.users.find_one({"id", current_user.get_id()})
-    return render_template("profile.html")
+    user_info = db.users.find_one({"id": current_user.get_id()})
+    print(user_info)
+    return render_template("profile.html", user_info = user_info)
 
 @app.route('/logout')
 @login_required
