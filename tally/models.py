@@ -17,3 +17,9 @@ class User(UserMixin):
 
     def is_authenticated(self):
         return True
+
+    def get_id(self):
+        return self.id
+
+    def get_role(self):
+        return self.role
