@@ -40,7 +40,7 @@ def input_resume():
     activity = ExtraActivity()
     course = CourseWork()
     if form.is_submitted() and work.is_submitted(): #submitting without validating
-        print(form.school.data, form.gpa.data, form.major.data, form.email.data, form.phone.data, work.company.data, work.role.data, work.desc.data, activity.role.data, activity.group.data, activity.desc.data, course.title.data, course.category.data, course.desc.data)
+        print("form was submitted")
         return redirect('/profile') #redirects to home screen
     return render_template("input_resume.html", form=form, work=work, activity=activity, course=course)
 
@@ -63,8 +63,7 @@ def register():
     else:
         print(form.errors)
         return render_template('create_account.html', form = form)
-
-
+      
 @app.route('/submit_resume', methods=['GET', 'POST'])
 def submit_resume():
     form = ApplicantForm()
@@ -85,7 +84,6 @@ def profile():
 def logout():
     logout_user()
     return redirect(url_for('login'))
-
 
 ### Test Server ###
 @app.route('/helloworld')

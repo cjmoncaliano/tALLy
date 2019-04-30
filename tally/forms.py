@@ -6,12 +6,12 @@ class WorkExperience(FlaskForm):
     company = StringField('Company Name')
     role = StringField('Role/Title')
     desc = StringField('Description')
-    
+
 class ExtraActivity(FlaskForm):
     group = StringField('Company Name')
     role = StringField('Role/Title')
     desc = StringField('Description')
-    
+
 class CourseWork(FlaskForm):
     title = StringField('Company Name')
     category = StringField('Role/Title')
