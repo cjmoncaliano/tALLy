@@ -63,6 +63,8 @@ def role_builder():
         print("form was submitted")
         print(jobform.company.data, jobform.role.data, jobform.team.data, jobform.description.data)
         print(jobform.deadline.data, jobform.major.data, jobform.qualities.data, jobform.year.data)
+        if jobform.company.data != "" and jobform.company.data is not None:
+            db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"open_roles": {"company": jobform.company.data, "role": jobform.role.data, "team": jobform.team.data, "desc": jobform.description.data, "deadline": jobform.deadline.data, "major": jobform.major.data, "qualities": jobform.qualities.data, "grad_year": jobform.year.data}}}, upsert=True)
         return redirect('/') #redirects to home screen
     return render_template("role_builder.html", jobform=jobform)
 
