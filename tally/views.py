@@ -1,8 +1,9 @@
-from tally import app, db, login_manager
+from tally import app, db, login_manager, model
 from tally.forms import ApplicantForm, WorkExperience, ExtraActivity, CourseWork, JobForm, RegistrationForm, LoginForm
 from tally.models import User
 from flask import render_template, redirect, url_for, request
 from flask_login import login_user, logout_user, login_required, current_user
+from tally.classifier.classifier import score_experience
 import uuid
 ### Login ###
 @login_manager.user_loader
@@ -110,6 +111,15 @@ def profile():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+
+@app.route('/classifier_test')
+def classifier_test():
+    skill, score = score_experience(model, "Led teambuilding division to lead and motivate students.")
+    print("\n\n\n")
+    print(skill, score)
+    print("\n\n\n")
+    return "hello world"
 
 ### Test Server ###
 @app.route('/helloworld')
