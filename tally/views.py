@@ -5,6 +5,7 @@ from flask import render_template, redirect, url_for, request
 from flask_login import login_user, logout_user, login_required, current_user
 from tally.classifier.classifier import score_experience, return_skills
 from sklearn import preprocessing
+import numpy as np
 
 import uuid
 ### Login ###
@@ -177,8 +178,25 @@ def classifier_test(descriptions = []):
     normalized = [(score) * 10/score_max for score in scores]
     return skills, normalized
 
-def find_top_matches():
-    pass
+@app.route('/test_matching')
+def find_top_matches(n_top = 3):
+    student_scores = []
+    ids = []
+    students = list(db.users.find({"role": "student"}))
+    for student in students:
+        scores = student["skills"]["scores"]
+        student_scores.append(sum(scores))
+        ids.append(student["id"])
+    if len(student_scores) < n_top:
+        return str(ids)
+    else:
+        index_scores = np.argsort(student_scores)
+        index_scores = index_scores[::-1]
+        top_ids = []
+        for i in range(n_top):
+            top_ids.append(ids[index_scores[i]])
+        return str(top_ids)
+
 
 ### Test Server ###
 @app.route('/helloworld')
