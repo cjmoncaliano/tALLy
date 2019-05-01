@@ -50,7 +50,7 @@
       </div>
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
-          <li><a class="logout" href="login">Logout</a></li>
+          <li><a class="logout" href="/login">Logout</a></li>
         </ul>
       </div>
     </header>
@@ -63,16 +63,16 @@
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered"><a href="profile.html"><img src="static/img/anon.jpg" class="img-circle" width="80"></a></p>
-          <h5 class="centered"> Anon </h5>
+          <p class="centered"><a href="/profile.html"><img src="static/img/anon.jpg" class="img-circle" width="80"></a></p>
+          <h5 class="centered"> {{ user_name }} </h5>
           <li class="mt">
-            <a class="active" href="">
+            <a class="active" href="/profile">
               <i class="fa fa-dashboard"></i>
-              <span>Dashboard</span>
+              <span> Candor Chart </span>
               </a>
           </li>
           <li class="sub-menu">
-            <a href="/role_builder">
+            <a href="/input_resume">
               <i class="fa fa-tasks"></i>
               <span>Forms</span>
               </a>
@@ -93,11 +93,11 @@
             <div class="row content-panel">
               <!-- /col-md-4 -->
               <div class="col-md-6 profile-text">
-                <h3> {{ user_info.username }} </h3>
+                <h3> {{ user_info.name }} </h3>
                 <h6> {{ user_info.school }} </h6>
-                <p> {{ user_info.major }}  </p>
+                <p> Major: {{ user_info.major }}  </p>
+                <p> Email: {{ user_info.email }}  </p>
                 <br>
-                <p><button class="btn btn-theme"><i class="fa fa-envelope"></i> Send Message</button></p>
               </div>
               <!-- /col-md-4 -->
               <div class="col-md-6 centered">
@@ -128,10 +128,25 @@
                         <div class="detailed mt">
                           <h4>Education</h4>
                           <div class="recent-activity">
-                            <div class="activity-icon bg-theme"><i class="fa fa-check"></i></div>
                             <div class="activity-panel">
-                              <h5>CHART HERE</h5>
-                              <p>Coming soon</p>
+                              <canvas id="eduChart" width="280" height="150"></canvas>
+                              <!-- /Extracts text information from wtforms-->
+                              <h4 id="eduTitle" class="hidden"> {{ user_info.course[0].course_title }} </h4>
+                                <script>
+                                  var c = document.getElementById("eduChart");
+                                  // Sets the bubble
+                                  var con = c.getContext("2d");
+                                  con.fillStyle = "blue";
+                                  con.arc(125,75,60,0,2*Math.PI);
+                                  con.fill();
+                                  // Sets the text
+                                  con.fillStyle = "white";
+                                  con.font = "15pt sans-serif";
+                                  con.textAlign = "center";
+                                  // Extract text from html
+                                  var title = document.getElementById("eduTitle")
+                                  con.fillText(title.innerHTML, 125, 83);
+                                </script>
                             </div>
                           </div>
                           <!-- /professional experience -->
@@ -144,10 +159,26 @@
                           <div class="detailed mt">
                             <h4>Professional Experience</h4>
                             <div class="recent-activity">
-                              <div class="activity-icon bg-theme"><i class="fa fa-check"></i></div>
                               <div class="activity-panel">
-                                <h5>CHART HERE</h5>
-                                <p>Coming soon</p>
+                               <canvas id="profChart" width="280" height="150">
+                               </canvas>
+                               <!-- /Extracts text information from wtforms-->
+                                <h4 id = "profTitle" class="hidden"> {{ user_info.work_exps[0].company }} </h4>
+                                  <script>
+                                    var c = document.getElementById("profChart");
+                                    // Sets the bubble
+                                    var con = c.getContext("2d");
+                                    con.fillStyle = "teal";
+                                    con.arc(125,75,60,0,2*Math.PI);
+                                    con.fill();
+                                    // Sets the text
+                                    con.fillStyle = "white";
+                                    con.font = "15pt sans-serif";
+                                    con.textAlign = "center";
+                                    // Extract text from html
+                                    var title = document.getElementById("profTitle")
+                                    con.fillText(title.innerHTML , 125, 83);
+                                  </script>
                               </div>
                             </div>
                             <!-- /professional experience -->
@@ -160,10 +191,25 @@
                             <div class="detailed mt">
                               <h4>Extracurriculars</h4>
                               <div class="recent-activity">
-                                <div class="activity-icon bg-theme"><i class="fa fa-check"></i></div>
                                 <div class="activity-panel">
-                                  <h5>CHART HERE</h5>
-                                  <p>Coming soon</p>
+                                   <canvas id="excChart" width="280" height="150"></canvas>
+                                    <!-- /Extracts text information from wtforms-->
+                                   <h4 id = "excGroup" class= "hidden"> {{ user_info.activity[0].group }} </h4>
+                                    <script>
+                                      var c = document.getElementById("excChart");
+                                      // Sets the bubble
+                                      var con = c.getContext("2d");
+                                      con.fillStyle = "green";
+                                      con.arc(125,75,60,0,2*Math.PI);
+                                      con.fill();
+                                      // Sets the text
+                                      con.fillStyle = "white";
+                                      con.font = "15pt sans-serif";
+                                      con.textAlign = "center";
+                                      // Extract text from html
+                                      var title = document.getElementById("excGroup")
+                                      con.fillText(title.innerHTML, 125, 83);
+                                    </script>
                                 </div>
                               </div>
                               <!-- /professional experience -->
@@ -198,8 +244,53 @@
   <script src="static/lib/common-scripts.js"></script>
   <script type="text/javascript" src="static/lib/gritter/js/jquery.gritter.js"></script>
   <script type="text/javascript" src="static/lib/gritter-conf.js"></script>
-  <!--script for charts-->
-  <script src="static/lib/chartjs-conf.js"></script>
+  <script>
+  var input = '{{user_info.skills.types}}'
+  console.log(input);
+
+  // Parsing out the different skills and then grabbing the top 5
+  var result = input.split("&#39;");
+  console.log(result)
+  var skills = []
+  for (ind in result) {
+    if (result[ind] != ", " && result[ind] != "[" && result[ind] != "]") {
+      skills.push(result[ind])
+    }
+  }
+
+  // Parsing out the different scores
+  var scores = '{{user_info.skills.scores}}';
+  var scores_result = scores.slice(1, -1).split(", ");
+  console.log(scores_result)
+  var scores = []
+  for (ind in scores_result) {
+      scores.push(parseInt(scores_result[ind]));
+  }
+
+  // Grab top 5 skills and scores
+  skills = skills.slice(0, 5)
+  scores = scores.slice(0, 5)
+  console.log(skills);
+  console.log(scores);
+  var Script = function () {
+      var radarChartData = {
+          labels : skills,
+          datasets : [
+              {
+                  fillColor : "rgba(151,187,205,0.5)",
+                  strokeColor : "rgba(151,187,205,1)",
+                  pointColor : "rgba(151,187,205,1)",
+                  pointStrokeColor : "#fff",
+                  data : scores
+              }
+          ]
+
+      };
+      new Chart(document.getElementById("radar").getContext("2d")).Radar(radarChartData);
+
+  }();
+
+  </script>
   <script src="static/lib/chart-master/Chart.js"></script>
   <!--script for this page-->
   <script src="static/lib/sparkline-chart.js"></script>

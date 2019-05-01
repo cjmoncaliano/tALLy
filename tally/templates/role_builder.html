@@ -42,13 +42,11 @@
         <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
       </div>
       <!--logo start-->
-      <a href="/" class="logo"><b>CAND<span>OR</span></b></a>
+      <a href="index.html" class="logo"><b>CAND<span>OR</span></b></a>
       <!--logo end-->
-      <div class="nav notify-row" id="top_menu">
-      </div>
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
-          <li><a class="logout" href="login">Logout</a></li>
+          <li><a class="logout" href="login.html">Logout</a></li>
         </ul>
       </div>
     </header>
@@ -62,18 +60,25 @@
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
           <p class="centered"><a href="/profile"><img src="/static/img/anon.jpg" class="img-circle" width="80"></a></p>
-          <h5 class="centered"> Anon </h5>
+          <h5 class="centered"> {{ user_name}} </h5>
           <li class="mt">
-            <a href="/">
+            <a href="/dashboard">
               <i class="fa fa-dashboard"></i>
               <span>Dashboard</span>
               </a>
           </li>
           <li class="sub-menu">
-            <a class="active" href="/role_builder">
+            <a class="active" href="javascript:;">
               <i class="fa fa-tasks"></i>
               <span>Forms</span>
               </a>
+            <ul class="sub">
+              <li class="active"><a href="form_component.html">Form Components</a></li>
+              <li><a href="advanced_form_components.html">Advanced Components</a></li>
+              <li><a href="form_validation.html">Form Validation</a></li>
+              <li><a href="contactform.html">Contact Form</a></li>
+              <li><a href="contactform.html">Contact Form</a></li>
+            </ul>
           </li>
         </ul>
         <!-- sidebar menu end-->
