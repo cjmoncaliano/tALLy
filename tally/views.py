@@ -79,13 +79,15 @@ def input_resume():
 
 @app.route('/role_builder', methods=['GET', 'POST'])
 def role_builder():
+    user_name = db.users.find_one({"id": current_user.get_id()})["username"]
+
     jobform = JobForm()
     if jobform.is_submitted(): #submitting without validating
         print("form was submitted")
         print(jobform.company.data, jobform.role.data, jobform.team.data, jobform.description.data)
         print(jobform.deadline.data, jobform.major.data, jobform.qualities.data, jobform.year.data)
         return redirect('/') #redirects to home screen
-    return render_template("role_builder.html", jobform=jobform)
+    return render_template("role_builder.html", jobform=jobform, user_name = user_name)
 
 @app.route('/register', methods = ["GET", "POST"])
 def register():

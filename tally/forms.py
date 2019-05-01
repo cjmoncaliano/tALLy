@@ -32,13 +32,12 @@ class JobForm(FlaskForm):
     team = StringField('Team', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired()])
     deadline = StringField('Application Deadline', validators=[DataRequired()])
-    qualities = SelectMultipleField('Top Qualities', choices =[('collaboration', 'Collaboration'), \
-        ('oral_comm', 'Oral Communication'), \
-        ('conflict_resolution', 'Conflict Resolution'), \
-        ('dedication', 'Dedication'), \
-        ('leadershi', 'Leadership'), \
+    qualities = SelectMultipleField('Top Qualities', choices =[('collaboration', 'Collaboration'),
+        ('persistence', 'Persistence'), \
+        ('quantitative', 'Quantitative'), \
+        ('leadership', 'Leadership'), \
         ('adaptability', 'Adaptability'), \
-        ('systems_thinking', 'Systems Thinking')],validators=[DataRequired()])
+        ('creativity', 'Creativity')],validators=[DataRequired()])
     major = StringField('Preferred Major(s)/Minor(s)', validators=[DataRequired()])
     year = StringField('School Year', validators=[DataRequired()])
     submit = SubmitField('Submit')
