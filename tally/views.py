@@ -170,6 +170,9 @@ def classifier_test(descriptions = []):
     normalized = [(score - score_min) * 10/score_range for score in scores]
     return skills, normalized
 
+def find_top_matches():
+    pass
+
 ### Test Server ###
 @app.route('/helloworld')
 def hello_world():

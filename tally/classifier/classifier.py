@@ -42,6 +42,8 @@ def score_experience(model, desc):
     # order: leadership, collaborate, creativity, quantitative
     scores = [0, 0, 0, 0, 0, 0]
     for word in tokens:
+        if word not in model.wv.vocab:
+            continue
         scores[0] += model.wv.similarity(word, "leadership")
         scores[1] += model.wv.similarity(word, "collaborate")
         scores[2] += model.wv.similarity(word, "creativity")
