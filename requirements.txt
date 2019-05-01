@@ -9,3 +9,4 @@ flask-login
 gensim
 numpy
 pandas
+scikit-learn
