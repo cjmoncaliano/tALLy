@@ -16,11 +16,15 @@ def load_user(userID):
     return User(user["id"], user["role"])
 
 ### splash page
-@app.route('/')
+@app.route('/dashboard')
 def index():
-    return render_template("index.html")
+    print(current_user.get_id())
+    user_info = db.users.find_one({"id": current_user.get_id()})
+    print(user_info)
+    return render_template("index.html", user_info = user_info)
+    #return render_template("index.html")
 
-@app.route('/login', methods=["GET", "POST"])
+@app.route('/', methods=["GET", "POST"])
 def login():
     form = LoginForm()
     if request.method == 'POST' and form.validate_on_submit():
@@ -33,11 +37,14 @@ def login():
         else:
             user_obj = User(user["id"], user["role"])
             login_user(user_obj)
-
+            
             # User has not filled out resume yet
             if user["role"] == "student" and len(user) <=5:
                 return redirect(url_for('input_resume'))
-            return redirect(url_for('profile'))
+            elif user_obj.role == 'recruiter':
+                return redirect('/dashboard')
+            else:
+                return redirect(url_for('profile'))
     else:
         print(form.errors)
         return render_template("login.html", form=form)
@@ -86,7 +93,19 @@ def role_builder():
         print("form was submitted")
         print(jobform.company.data, jobform.role.data, jobform.team.data, jobform.description.data)
         print(jobform.deadline.data, jobform.major.data, jobform.qualities.data, jobform.year.data)
-        return redirect('/') #redirects to home screen
+        if jobform.company.data != "" and jobform.company.data is not None:
+            db.users.find_one_and_update({
+                "id": current_user.get_id()}, 
+                {"$push": {"open_roles": {
+                    "company": jobform.company.data, 
+                    "role": jobform.role.data, 
+                    "team": jobform.team.data, 
+                    "desc": jobform.description.data, 
+                    "deadline": jobform.deadline.data, 
+                    "major": jobform.major.data, 
+                    "qualities": jobform.qualities.data, 
+                    "grad_year": jobform.year.data}}}, upsert=True)
+        return redirect('/dashboard')
     return render_template("role_builder.html", jobform=jobform, user_name = user_name)
 
 @app.route('/register', methods = ["GET", "POST"])
@@ -104,6 +123,18 @@ def register():
             "role": form.role.data,
             "id": id,
         })
+        if form.role.data == 'recruiter':
+            db.users.find_one_and_update({
+                "id": id}, 
+                {"$push": {"open_roles": {
+                    "company": None, 
+                    "role": None, 
+                    "team": None, 
+                    "desc": None, 
+                    "deadline": None, 
+                    "major": None, 
+                    "qualities": None, 
+                    "grad_year": None}}}, upsert=True)
         return redirect(url_for('login'))
     else:
         print(form.errors)
