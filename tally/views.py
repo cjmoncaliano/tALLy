@@ -37,7 +37,7 @@ def login():
         else:
             user_obj = User(user["id"], user["role"])
             login_user(user_obj)
-            
+
             # User has not filled out resume yet
             if user["role"] == "student" and len(user) <=5:
                 return redirect(url_for('input_resume'))
@@ -70,8 +70,8 @@ def input_resume():
         if activity.group.data != "" and activity.group.data is not None:
             db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"activity": {"group": activity.group.data, "role": activity.title.data, "desc": activity.extra_desc.data}}}, upsert=True)
             descriptions.append(activity.extra_desc.data)
-        if course.title.data != "" and course.title.data is not None:
-            db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"course": {"title": course.title.data, "role": course.category.data, "desc": course.course_desc.data}}}, upsert=True)
+        if course.course_title.data != "" and course.course_title.data is not None:
+            db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"course": {"title": course.course_title.data, "role": course.category.data, "desc": course.course_desc.data}}}, upsert=True)
             descriptions.append(course.course_desc.data)
 
         # Calculate skills according to descriptions given
@@ -95,15 +95,15 @@ def role_builder():
         print(jobform.deadline.data, jobform.major.data, jobform.qualities.data, jobform.year.data)
         if jobform.company.data != "" and jobform.company.data is not None:
             db.users.find_one_and_update({
-                "id": current_user.get_id()}, 
+                "id": current_user.get_id()},
                 {"$push": {"open_roles": {
-                    "company": jobform.company.data, 
-                    "role": jobform.role.data, 
-                    "team": jobform.team.data, 
-                    "desc": jobform.description.data, 
-                    "deadline": jobform.deadline.data, 
-                    "major": jobform.major.data, 
-                    "qualities": jobform.qualities.data, 
+                    "company": jobform.company.data,
+                    "role": jobform.role.data,
+                    "team": jobform.team.data,
+                    "desc": jobform.description.data,
+                    "deadline": jobform.deadline.data,
+                    "major": jobform.major.data,
+                    "qualities": jobform.qualities.data,
                     "grad_year": jobform.year.data}}}, upsert=True)
         return redirect('/dashboard')
     return render_template("role_builder.html", jobform=jobform, user_name = user_name)
@@ -125,15 +125,15 @@ def register():
         })
         if form.role.data == 'recruiter':
             db.users.find_one_and_update({
-                "id": id}, 
+                "id": id},
                 {"$push": {"open_roles": {
-                    "company": None, 
-                    "role": None, 
-                    "team": None, 
-                    "desc": None, 
-                    "deadline": None, 
-                    "major": None, 
-                    "qualities": None, 
+                    "company": None,
+                    "role": None,
+                    "team": None,
+                    "desc": None,
+                    "deadline": None,
+                    "major": None,
+                    "qualities": None,
                     "grad_year": None}}}, upsert=True)
         return redirect(url_for('login'))
     else:

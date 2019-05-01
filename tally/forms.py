@@ -8,12 +8,12 @@ class WorkExperience(FlaskForm):
     work_desc = StringField('Description')
 
 class ExtraActivity(FlaskForm):
-    group = StringField('Company Name')
+    group = StringField('Group Name')
     title = StringField('Role/Title')
     extra_desc = StringField('Description')
 
 class CourseWork(FlaskForm):
-    title = StringField('Company Name')
+    course_title = StringField('Course Name')
     category = StringField('Category')
     course_desc = StringField('Description')
 
