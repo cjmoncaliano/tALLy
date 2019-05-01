@@ -33,6 +33,10 @@ def login():
         else:
             user_obj = User(user["id"], user["role"])
             login_user(user_obj)
+
+            # User has not filled out resume yet
+            if user["role"] == "student" and len(user) <=5:
+                return redirect(url_for('input_resume'))
             return redirect(url_for('profile'))
     else:
         print(form.errors)
