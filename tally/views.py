@@ -71,7 +71,7 @@ def input_resume():
             db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"activity": {"group": activity.group.data, "role": activity.title.data, "desc": activity.extra_desc.data}}}, upsert=True)
             descriptions.append(activity.extra_desc.data)
         if course.course_title.data != "" and course.course_title.data is not None:
-            db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"course": {"title": course.course_title.data, "role": course.category.data, "desc": course.course_desc.data}}}, upsert=True)
+            db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"course": {"course_title": course.course_title.data, "role": course.category.data, "desc": course.course_desc.data}}}, upsert=True)
             descriptions.append(course.course_desc.data)
 
         # Calculate skills according to descriptions given
