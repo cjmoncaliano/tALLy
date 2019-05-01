@@ -3,6 +3,8 @@ import numpy as np
 import gensim
 import sys
 
+skills = ["leadership", "collaboration", "creativity", "quantitative", "adaptability", "persistence"]
+
 def train_model(save_model = True):
     df = pd.read_csv('data/job_dataset_4_4.csv')
     df = df.dropna(subset=['RequiredQual'])
@@ -28,25 +30,34 @@ def load_model(model_path):
     model = gensim.models.Word2Vec.load(model_path)
     return model
 
+def return_skills():
+    return skills
 
 def score_experience(model, desc):
-    desc = "Led teambuilding division to lead and motivate students 123."
     desc = gensim.parsing.preprocessing.remove_stopwords(desc)
     desc = gensim.parsing.preprocessing.strip_numeric(desc)
     desc = gensim.parsing.preprocessing.strip_punctuation(desc)
     tokens = gensim.utils.simple_preprocess(desc)
 
     # order: leadership, collaborate, creativity, quantitative
-    scores = [0, 0, 0, 0]
-    skills = ["leadership", "collaboration", "creativity", "quantitative"]
+    scores = [0, 0, 0, 0, 0, 0]
     for word in tokens:
         scores[0] += model.wv.similarity(word, "leadership")
         scores[1] += model.wv.similarity(word, "collaborate")
         scores[2] += model.wv.similarity(word, "creativity")
         scores[3] += model.wv.similarity(word, "math")
+        scores[4] += model.wv.similarity(word, "adaptability")
+        scores[5] += model.wv.similarity(word, "persistence")
+
+    for ind in range(len(scores)):
+        if scores[ind] < 0:
+            scores[ind] = 0.0
+    return scores
+    '''
     max_score = max(scores)
     skill = skills[scores.index(max_score)]
     if max_score < 0.1:
         return ("leadership", 0)
     else:
         return (skill, max_score)
+    '''

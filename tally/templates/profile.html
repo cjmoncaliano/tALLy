@@ -93,9 +93,9 @@
             <div class="row content-panel">
               <!-- /col-md-4 -->
               <div class="col-md-6 profile-text">
-                <h3> {{ user_info.username }} </h3>
+                <h3> {{ user_info.name }} </h3>
                 <h6> {{ user_info.school }} </h6>
-                <p> {{ user_info.major }}  </p>
+                <p> {{ user_info.skills }}  </p>
                 <br>
                 <p><button class="btn btn-theme"><i class="fa fa-envelope"></i> Send Message</button></p>
               </div>
@@ -121,7 +121,7 @@
                   <div id="overview" class="tab-pane active">
                     <!-- trying to add chart here -->
                     <div class="center-block">
-                        <canvas id="radar" height = "800px" width = "800px"></canvas>
+                        <canvas id="radar" height = "600px" width = "600px"></canvas>
                     </div>
                     <div class="row">
                       <div class="col-md-4">
@@ -198,8 +198,28 @@
   <script src="static/lib/common-scripts.js"></script>
   <script type="text/javascript" src="static/lib/gritter/js/jquery.gritter.js"></script>
   <script type="text/javascript" src="static/lib/gritter-conf.js"></script>
-  <!--script for charts-->
-  <script src="static/lib/chartjs-conf.js"></script>
+  <!--script for charts
+  <script src="static/lib/chartjs-conf.js"></script>-->
+  <script>
+  var Script = function () {
+      var radarChartData = {
+          labels : user_info.skills.types,
+          datasets : [
+              {
+                  fillColor : "rgba(151,187,205,0.5)",
+                  strokeColor : "rgba(151,187,205,1)",
+                  pointColor : "rgba(151,187,205,1)",
+                  pointStrokeColor : "#fff",
+                  data : [28,48,40,19,96]
+              }
+          ]
+
+      };
+      new Chart(document.getElementById("radar").getContext("2d")).Radar(radarChartData);
+
+  }();
+
+  </script>
   <script src="static/lib/chart-master/Chart.js"></script>
   <!--script for this page-->
   <script src="static/lib/sparkline-chart.js"></script>

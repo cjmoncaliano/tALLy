@@ -294,7 +294,14 @@
         <div class="row mt">
           <div class="col-lg-12">
             <div class="form-panel">
-              <h4 class="mb"><b> Education <b></h4>
+              <h4 class="mb"><b> General Information <b></h4>
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label"> Full Name </label>
+
+                  <div class="col-sm-10">
+                      {{ form.name(class_="form-control") }}
+                    </div>
+                </div>
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label"> School Name </label>
 
@@ -368,7 +375,7 @@
                   <div class="form-group">
                     <label class="col-sm-2 col-sm-2 control-label"> Description </label>
                     <div class="col-sm-10">
-                      {{ work.desc(class_="form-control") }}
+                      {{ work.work_desc(class_="form-control") }}
                       <span class="help-block"> Ie."I performed data analysis for our internal legal team."</span>
                     </div>
                   </div>
@@ -390,7 +397,7 @@
                   <div class="form-group">
                     <label class="col-sm-2 col-sm-2 control-label"> Role/Title </label>
                     <div class="col-sm-10">
-                      {{ activity.role(class_="form-control") }}  </div>
+                      {{ activity.title(class_="form-control") }}  </div>
                   </div>
                   <div class="form-group">
                     <label class="control-label col-md-3">Date Range</label>
@@ -406,7 +413,7 @@
                   <div class="form-group">
                     <label class="col-sm-2 col-sm-2 control-label"> Description </label>
                     <div class="col-sm-10">
-                      {{ activity.desc(class_="form-control") }}
+                      {{ activity.extra_desc(class_="form-control") }}
                       <span class="help-block"> Ie."I performed data analysis for our internal legal team."</span>
                     </div>
                   </div>
@@ -434,7 +441,7 @@
                   <div class="form-group">
                     <label class="col-sm-2 col-sm-2 control-label"> Description </label>
                     <div class="col-sm-10">
-                      {{ course.desc(class_="form-control") }}
+                      {{ course.course_desc(class_="form-control") }}
                       <span class="help-block"> Ie."I worked on a group project and final presentation."</span>
                     </div>
                   </div>

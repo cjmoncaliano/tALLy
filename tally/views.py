@@ -3,7 +3,9 @@ from tally.forms import ApplicantForm, WorkExperience, ExtraActivity, CourseWork
 from tally.models import User
 from flask import render_template, redirect, url_for, request
 from flask_login import login_user, logout_user, login_required, current_user
-from tally.classifier.classifier import score_experience
+from tally.classifier.classifier import score_experience, return_skills
+from sklearn import preprocessing
+
 import uuid
 ### Login ###
 @login_manager.user_loader
@@ -46,14 +48,23 @@ def input_resume():
     activity = ExtraActivity()
     course = CourseWork()
     if form.is_submitted() and work.is_submitted(): #submitting without validating
-        print(form.school.data, form.gpa.data, form.major.data, form.email.data, form.phone.data)
-        db.users.find_one_and_update({"id": current_user.get_id()}, {"$set": {"school": form.school.data, "major": form.major.data, "email": form.email.data, "phone": form.phone.data}})
+        descriptions = []
+        print(form.name.data, form.school.data, form.gpa.data, form.major.data, form.email.data, form.phone.data)
+        print(work.company.data, work.role.data, work.work_desc.data)
+        db.users.find_one_and_update({"id": current_user.get_id()}, {"$set": {"name": form.name.data, "school": form.school.data, "major": form.major.data, "email": form.email.data, "phone": form.phone.data}})
         if work.company.data != "" and work.company.data is not None:
-            db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"work_exps": {"company": work.company.data, "role": work.role.data, "desc": work.desc.data}}}, upsert=True)
+            db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"work_exps": {"company": work.company.data, "role": work.role.data, "desc": work.work_desc.data}}}, upsert=True)
+            descriptions.append(work.work_desc.data)
         if activity.group.data != "" and activity.group.data is not None:
-            db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"activity": {"group": activity.group.data, "role": activity.role.data, "desc": activity.desc.data}}}, upsert=True)
+            db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"activity": {"group": activity.group.data, "role": activity.title.data, "desc": activity.extra_desc.data}}}, upsert=True)
+            descriptions.append(activity.extra_desc.data)
         if course.title.data != "" and course.title.data is not None:
-            db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"course": {"title": course.title.data, "role": course.category.data, "desc": course.desc.data}}}, upsert=True)
+            db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"course": {"title": course.title.data, "role": course.category.data, "desc": course.course_desc.data}}}, upsert=True)
+            descriptions.append(course.course_desc.data)
+
+        skills, scores = classifier_test(descriptions)
+        print(skills, scores)
+        db.users.find_one_and_update({"id": current_user.get_id()}, {"$set": {"skills": {"types": skills, "scores": scores}}}, upsert=True)
         return redirect('/profile') #redirects to home screen
     return render_template("input_resume.html", form=form, work=work, activity=activity, course=course)
 
@@ -112,14 +123,34 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+def classifier_test(descriptions = []):
+    skills = return_skills()
 
-@app.route('/classifier_test')
-def classifier_test():
-    skill, score = score_experience(model, "Led teambuilding division to lead and motivate students.")
-    print("\n\n\n")
-    print(skill, score)
-    print("\n\n\n")
-    return "hello world"
+    scores_list = []
+    scores = []
+
+    print (descriptions)
+    '''
+    descriptions = ["Led production of new feature on AdWords interface. Was dedicated team member, completing task within milestone mark.", \
+    "Worked with team members to build visualization model. Innovative brainstorming session.", \
+    "Built resume visualization tool using statistical modeling. Changed and updated our model according to customer reviews."]
+    '''
+    for desc in descriptions:
+        scores_list.append(score_experience(model, desc))
+        print(scores_list)
+    scores = [sum(x) for x in zip(*scores_list)]
+    print(scores)
+    score_min = min(scores)
+    score_range= max(scores) - score_min
+    print(min(scores))
+    print(max(scores))
+    normalized = [(score - score_min) * 10/score_range for score in scores]
+    #normalized = (scores-min(scores))/(max(scores)-min(scores))
+    print(normalized)
+
+    print("normalized")
+    print(normalized)
+    return skills, normalized
 
 ### Test Server ###
 @app.route('/helloworld')

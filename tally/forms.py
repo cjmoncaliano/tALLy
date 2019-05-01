@@ -5,19 +5,20 @@ from wtforms.validators import DataRequired
 class WorkExperience(FlaskForm):
     company = StringField('Company Name')
     role = StringField('Role/Title')
-    desc = StringField('Description')
+    work_desc = StringField('Description')
 
 class ExtraActivity(FlaskForm):
     group = StringField('Company Name')
-    role = StringField('Role/Title')
-    desc = StringField('Description')
+    title = StringField('Role/Title')
+    extra_desc = StringField('Description')
 
 class CourseWork(FlaskForm):
     title = StringField('Company Name')
-    category = StringField('Role/Title')
-    desc = StringField('Description')
+    category = StringField('Category')
+    course_desc = StringField('Description')
 
 class ApplicantForm(FlaskForm):
+    name = StringField('Full Name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired()])
     school = StringField('School', validators=[DataRequired()])
     gpa = StringField('GPA', validators=[DataRequired()])
@@ -35,7 +36,7 @@ class JobForm(FlaskForm):
         ('oral_comm', 'Oral Communication'), \
         ('conflict_resolution', 'Conflict Resolution'), \
         ('dedication', 'Dedication'), \
-        ('leadership', 'Leadership'), \
+        ('leadershi', 'Leadership'), \
         ('adaptability', 'Adaptability'), \
         ('systems_thinking', 'Systems Thinking')],validators=[DataRequired()])
     major = StringField('Preferred Major(s)/Minor(s)', validators=[DataRequired()])
