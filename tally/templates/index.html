@@ -84,7 +84,9 @@
             <div class="row mt">
               <div class="col-md-12">
                 <div class="content-panel">
-                  <table id="dashboard_table" class="table table-striped table-advance table-hover">
+                  <table id="dashboard_table">
+                    </table>
+                    <table id="dashboard_tab" class="table table-striped table-advance table-hover">
                     <h4><i class="fa fa-angle-right"></i> Open Roles </h4>
                     <hr>
                     <thead>
@@ -100,7 +102,7 @@
                       <tr>
                         <td>
                           <!-- <p>Supply Chain Technology Consultant</p> -->
-                          <a href="basic_table.html#"> {{ user_info.open_roles[0].role}} </a>
+                          <a href="basic_table.html#"> {{ user_info.open_roles[1].role}} </a>
                         </td>
                         <td class="hidden-phone">Business & Technology Integration</td>
                         <td> 129 </td>
@@ -334,7 +336,6 @@
   </section>
   <!-- js placed at the end of the document so the pages load faster -->
   <script src="static/lib/jquery/jquery.min.js"></script>
-  <script src="static/js/dashboard_roles.js"></script>
   <script src="static/lib/bootstrap/js/bootstrap.min.js"></script>
   <script class="include" type="text/javascript" src="static/lib/jquery.dcjqaccordion.2.7.js"></script>
   <script src="static/lib/jquery.scrollTo.min.js"></script>
@@ -389,6 +390,15 @@
       var nav = $("#" + id).data("navigation");
       var to = $("#" + id).data("to");
       console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+    }
+    
+    
+    function add_role() {
+        var table = document.getElementById("dashboard_table").getElementsByTagName('tbody')[0];
+        var row = table.insertRow(0);
+        var cell1 = row.insertCell(0);
+        var newText = document.createTextNode('{{user_info.open_roles[0].role}}');
+        cell1.appendChild(newText);
     }
   </script>
 </body>
