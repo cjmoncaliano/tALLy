@@ -33,8 +33,13 @@
   <!-- **********************************************************************************************************************************************************
       MAIN CONTENT
       *********************************************************************************************************************************************************** -->
+       <div class="header black-bg">
+          <a href="/" class="logo">Welcome to <b>CAND<span>OR</span></b>, Apply without Limits</a>
+      </div>
+    <br>
+    <br>
+    
   <div id="login-page">
-    <div class="container">
       <form class="form-login" action="{{url_for('login')}}" method="post">
         {{form.csrf_token}}
         <h2 class="form-login-heading">sign in</h2>
@@ -61,7 +66,7 @@
   <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
   <script type="text/javascript" src="static/lib/jquery.backstretch.min.js"></script>
   <script>
-    $.backstretch("static/img/login-bg.jpg", {
+    $.backstretch("static/img/splash-bg3.JPG", {
       speed: 500
     });
   </script>
