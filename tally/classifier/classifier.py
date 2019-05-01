@@ -53,11 +53,3 @@ def score_experience(model, desc):
         if scores[ind] < 0:
             scores[ind] = 0.0
     return scores
-    '''
-    max_score = max(scores)
-    skill = skills[scores.index(max_score)]
-    if max_score < 0.1:
-        return ("leadership", 0)
-    else:
-        return (skill, max_score)
-    '''

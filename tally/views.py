@@ -47,6 +47,7 @@ def input_resume():
     work = WorkExperience()
     activity = ExtraActivity()
     course = CourseWork()
+    user_name = db.users.find_one({"id": current_user.get_id()})["username"]
     if form.is_submitted() and work.is_submitted(): #submitting without validating
         descriptions = []
         print(form.name.data, form.school.data, form.gpa.data, form.major.data, form.email.data, form.phone.data)
@@ -62,11 +63,15 @@ def input_resume():
             db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"course": {"title": course.title.data, "role": course.category.data, "desc": course.course_desc.data}}}, upsert=True)
             descriptions.append(course.course_desc.data)
 
+        # Calculate skills according to descriptions given
         skills, scores = classifier_test(descriptions)
         print(skills, scores)
-        db.users.find_one_and_update({"id": current_user.get_id()}, {"$set": {"skills": {"types": skills, "scores": scores}}}, upsert=True)
+        sorted_skills = [skills for _,skills in sorted(zip(scores, skills), reverse = True)]
+        sorted_scores = sorted(scores, reverse = True)
+        print(sorted_skills, sorted_scores)
+        db.users.find_one_and_update({"id": current_user.get_id()}, {"$set": {"skills": {"types": sorted_skills, "scores": sorted_scores}}}, upsert=True)
         return redirect('/profile') #redirects to home screen
-    return render_template("input_resume.html", form=form, work=work, activity=activity, course=course)
+    return render_template("input_resume.html", form=form, work=work, activity=activity, course=course, user_name= user_name)
 
 @app.route('/role_builder', methods=['GET', 'POST'])
 def role_builder():
@@ -98,24 +103,13 @@ def register():
         print(form.errors)
         return render_template('create_account.html', form = form)
 
-'''
-@app.route('/submit_resume', methods=['GET', 'POST'])
-def submit_resume():
-    form = ApplicantForm()
-    print(form.validate_on_submit()) #returns false
-    if form.is_submitted(): #submitting without validating
-        print(form.school.data, form.gpa.data, form.major.data, form.email.data, form.phone.data)
-        return redirect('/') #redirects to home screen
-    return render_template("input_resume.html", form=form)
-'''
 
 @app.route('/profile')
 @login_required
 def profile():
     print(current_user.get_id())
     user_info = db.users.find_one({"id": current_user.get_id()})
-    print(user_info)
-    return render_template("profile.html", user_info = user_info)
+    return render_template("profile.html", user_info = user_info, user_name = user_info["username"])
 
 @app.route('/logout')
 @login_required
@@ -129,27 +123,14 @@ def classifier_test(descriptions = []):
     scores_list = []
     scores = []
 
-    print (descriptions)
-    '''
-    descriptions = ["Led production of new feature on AdWords interface. Was dedicated team member, completing task within milestone mark.", \
-    "Worked with team members to build visualization model. Innovative brainstorming session.", \
-    "Built resume visualization tool using statistical modeling. Changed and updated our model according to customer reviews."]
-    '''
     for desc in descriptions:
         scores_list.append(score_experience(model, desc))
-        print(scores_list)
     scores = [sum(x) for x in zip(*scores_list)]
-    print(scores)
+
     score_min = min(scores)
     score_range= max(scores) - score_min
-    print(min(scores))
-    print(max(scores))
-    normalized = [(score - score_min) * 10/score_range for score in scores]
-    #normalized = (scores-min(scores))/(max(scores)-min(scores))
-    print(normalized)
 
-    print("normalized")
-    print(normalized)
+    normalized = [(score - score_min) * 10/score_range for score in scores]
     return skills, normalized
 
 ### Test Server ###
