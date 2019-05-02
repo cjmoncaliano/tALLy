@@ -47,15 +47,6 @@ a, a:hover, a:focus {
     height: 100%;
 }
 
-/* Bootstrap Modifications */
-.modal-header {
-	background: #4ECDC4;
-}
-
-.modal-title {
-	color: white;
-}
-
 .btn-round {
 	border-radius: 20px;
 	-webkit-border-radius: 20px;
@@ -2009,15 +2000,6 @@ ul li {
 	font-size: 60px;
 }
 
-.lock-screen .modal-content {
-	position: relative;
-	background-color: #f2f2f2;
-	background-clip: padding-box;
-	border: 1px solid #999;
-	border: 1px solid rgba(0, 0, 0, .2);
-	border-radius: 5px;
-}
-
 
 /* PROFILE PAGE CONF */
 .profile-pic img {
@@ -2588,24 +2570,13 @@ ul.inbox-pagination li {
     border:1px solid #e6e6e6;
     background:#eeeeee;
 }
-.inbox-body .modal .modal-body input,.inbox-body .modal .modal-body textarea {
-    border:1px solid #e6e6e6;
-    box-shadow:none;
-}
+
 .btn-send,.btn-send:hover {
     background:#00A8B3;
     color:#fff;
 }
 .btn-send:hover {
     background:#009da7;
-}
-.modal-header h4.modal-title {
-    font-weight:300;
-    font-family:'Open Sans',sans-serif;
-}
-.modal-body label {
-    font-weight:400;
-    font-family: 'Open Sans',sans-serif;
 }
 
 .compose-mail {

@@ -53,7 +53,7 @@
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered"><a href="/dashboard"><img src="static/img/anon.jpg" class="img-circle" width="80"></a></p>
+          <p class="centered"><a href="/dashboard"><img src="static/img/ui-divya.jpg" class="img-circle" width="80"></a></p>
           <h5 class="centered"> {{user_info.username}} </h5>
           <li class="mt">
             <a class="active" href="/dashboard">
@@ -112,54 +112,10 @@
                 </div>
               </div>
               <!-- SERVER STATUS PANELS -->
-              <div class="col-md-6 mb" >
-                <div class="grey-panel pn" style="height:600px">
-                  <div class="grey-header">
-                    <h5>Supply Chain Technology Consultant</h5>
-                  </div>
-                    <canvas id="radar" height = "450px" width = "450px"></canvas>
-                    <div class="row">
-                      <div class="col-sm-6 col-xs-6">
-                        <a href="profile"> <h1> Richard Daya </h1> </a>
-                      </div>
-                      <div class="col-sm-6 col-xs-6">
-                        <h1>87% Match </h1>
-                      </div>
-                    </div>
-                  </div>
-                <!-- /grey-panel -->
+              <div class="col-md-6 mb" id="chart-0">
               </div>
               <!-- /col-md-4-->
-              <div class="col-md-6 mb" >
-                <div class="grey-panel pn" style="height:600px">
-                  <div class="grey-header">
-                    <h5>  Database Reporting Analyst</h5>
-                  </div>
-                  <canvas id="radar2" height="450px" width="450px"></canvas>
-                  <script>
-                    var doughnutData = [{
-                        value: 60,
-                        color: "#1c9ca7"
-                      },
-                      {
-                        value: 40,
-                        color: "#f68275"
-                      }
-                    ];
-                    var myDoughnut = new Chart(document.getElementById("serverstatus02").getContext("2d")).Doughnut(doughnutData);
-                  </script>
-                  <footer>
-                    <div class="row">
-                      <div class="col-sm-6 col-xs-6">
-                        <h1> Guo Lu </h1>
-                      </div>
-                      <div class="col-sm-6 col-xs-6">
-                        <h1>93% Match </h1>
-                      </div>
-                    </div>
-                  </footer>
-                </div>
-                <!--  /darkblue panel -->
+              <div class="col-md-6 mb" id="chart-1">
               </div>
               <!-- /col-md-4 -->
             </div>
@@ -314,6 +270,124 @@
       });
     });
 
+    function get_qualities() {
+      var input = '{{qualities}}'
+      console.log(input);
+
+      // Parsing out the different skills and then grabbing the top 5
+      var result = input.slice(1, -1).split("&#39;");
+      console.log(result)
+      var qualities_list = []
+      var indiv_qualities = []
+
+      for (ind in result) {
+        if (result[ind] == "], [" || result[ind] == "]") {
+          qualities_list.push(indiv_qualities)
+          indiv_qualities = []
+          continue
+        }
+        if (result[ind] != ", " && result[ind] != "[") {
+          indiv_qualities.push(result[ind]);
+        }
+      }
+
+      return qualities_list
+    }
+
+      function updateCharts(id) {
+        /**
+        console.log(id)
+        const queueUpdateResponse = await fetch("/find_top_matches/" + id, {method: "GET"});
+        console.log(queueUpdateResponse);
+
+        **/
+        $.get("/find_top_matches/" + id, function(data) {
+
+          qualities_list = get_qualities()
+          data = data.slice(1, -1)
+          var result = data.split("}, ");
+
+          var ids = []
+          var names = []
+          var traits = []
+          var scores = []
+          
+          for (ind in result) {
+            // Getting the id and name
+            split_1 = result[ind].split("'types': [");
+            split_1[0] = split_1[0].slice(0, -3)
+            split_2 = split_1[0].slice(1, -1)
+            split_id_name = split_2.split("', '");
+
+            ids.push(split_id_name[0])
+            names.push(split_id_name[1])
+
+            split_3 = split_1[1].split("], 'scores': [")
+            split_4 = split_3[0].split(', ')
+
+            var indiv_traits= []
+            for (ind_2 in split_4) {
+              split_4[ind_2] = split_4[ind_2].slice(1, -1)
+                indiv_traits.push(split_4[ind_2])
+            }
+
+            split_3[1] = split_3[1].slice(0, -2)
+            split_5 = split_3[1].split(', ')
+
+            var indiv_scores= []
+
+            for (ind_3 in split_5) {
+                indiv_scores.push(parseFloat(split_5[ind_3]))
+            }
+
+                        // Find and remove qualities not in the specification for the role
+                        indiv_traits_2 = []
+                        indiv_scores_2 = []
+                        for (qual_ind in indiv_traits) {
+                          if (qualities_list[id].includes(indiv_traits[qual_ind])) {
+                            indiv_traits_2.push(indiv_traits[qual_ind])
+                            indiv_scores_2.push(indiv_scores[qual_ind])
+                          }
+                        }
+                        console.log(indiv_traits_2)
+                        console.log(indiv_scores_2)
+
+                        traits.push(indiv_traits_2)
+                        scores.push(indiv_scores_2)
+          }
+
+          for (ind in names) {
+            var chart_1 = document.getElementById("chart-" + ind);
+            var match_num = parseInt(ind)+1
+            chart_1.innerHTML =  '<div class="grey-panel pn" style="height:600px">' +
+                  '<div class="grey-header"><h5>' +
+                  '<h5>' + '#' + match_num + ' match' + '</h5></div>' +
+                  '<canvas id="radar-' + ind + '" height = "450px" width = "450px"></canvas>' +
+                  '<div class="row"><div class="col-sm-12 col-xs-6">' +
+                      '<a href="profile"> <h4>' + names[ind] + '</h4> </a>' +
+                    '</div>';
+            display_chart(traits[ind], scores[ind], ind);
+          }
+        })
+      }
+
+    function display_chart(traits, scores, ind) {
+
+      var radarChartData = {
+          labels : traits,
+          datasets : [
+              {
+                  fillColor : "rgba(151,187,205,0.5)",
+                  strokeColor : "rgba(151,187,205,1)",
+                  pointColor : "rgba(151,187,205,1)",
+                  pointStrokeColor : "#fff",
+                  data : scores
+              }
+          ]
+
+      };
+      new Chart(document.getElementById("radar-" + ind).getContext("2d")).Radar(radarChartData);
+    }
     function myNavFunction(id) {
       $("#date-popover").hide();
       var nav = $("#" + id).data("navigation");
@@ -321,8 +395,7 @@
       console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
     }
 
-
-    function add_role(role, team) {
+    function add_role(role, team, index) {
         var table = document.getElementsByTagName('tbody')[0];
 
         console.log(table)
@@ -331,7 +404,9 @@
         console.log(td)
         // Create and add new row
         const role_name = document.createElement('label');
-        role_name.innerHTML =  '<a href="basic_table.html#">' + role + '</a>';
+        //" onClick="updateCharts(this.id)"
+        role_name.innerHTML =  '<a id="' + index + '" onClick="updateCharts(this.id)">' + role + '</a>';
+        //role_name.innerHTML =  '<a id="' + index + '" href="/find_top_matches/' + index + '">' + role + '</a>';
 
         td.appendChild(role_name);
 
@@ -341,41 +416,61 @@
         team_name.innerHTML =  team;
 
         team_td.appendChild(team_name)
-
     }
 
-        var input = '{{roles}}'
-        console.log(input);
+      var input = '{{roles}}'
+      console.log(input);
 
-        // Parsing out the different skills and then grabbing the top 5
-        var result = input.split("&#39;");
-        console.log(result)
-        var roles = []
-        for (ind in result) {
-          if (result[ind] != ", " && result[ind] != "[" && result[ind] != "]") {
-            roles.push(result[ind]);
-          }
+      // Parsing out the different skills and then grabbing the top 5
+      var result = input.split("&#39;");
+      console.log(result)
+      var roles = []
+      for (ind in result) {
+        if (result[ind] != ", " && result[ind] != "[" && result[ind] != "]") {
+          roles.push(result[ind]);
         }
+      }
 
-        var input = '{{teams}}'
-        console.log(input);
+      var input = '{{teams}}'
+      console.log(input);
 
-        // Parsing out the different skills and then grabbing the top 5
-        var result = input.split("&#39;");
-        console.log(result)
-        var teams = []
-        for (ind in result) {
-          if (result[ind] != ", " && result[ind] != "[" && result[ind] != "]") {
-            teams.push(result[ind]);
-          }
+      // Parsing out the different skills and then grabbing the top 5
+      var result = input.split("&#39;");
+      console.log(result)
+      var teams = []
+      for (ind in result) {
+        if (result[ind] != ", " && result[ind] != "[" && result[ind] != "]") {
+          teams.push(result[ind]);
         }
+      }
 
-        console.log(roles);
-        console.log(teams);
+      var input = '{{qualities}}'
+      console.log(input);
 
-        for (i in roles) {
-          add_role(roles[i], teams[i]);
+      // Parsing out the different skills and then grabbing the top 5
+      var result = input.slice(1, -1).split("&#39;");
+      console.log(result)
+      var qualities_list = []
+      var indiv_qualities = []
+
+      for (ind in result) {
+        if (result[ind] == "], [" || result[ind] == "]") {
+          qualities_list.push(indiv_qualities)
+          indiv_qualities = []
+          continue
         }
+        if (result[ind] != ", " && result[ind] != "[") {
+          indiv_qualities.push(result[ind]);
+        }
+      }
+
+      console.log(roles);
+      console.log(teams);
+      console.log(qualities_list);
+
+      for (i in roles) {
+        add_role(roles[i], teams[i], i);
+      }
 
   </script>
 

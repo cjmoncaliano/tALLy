@@ -63,7 +63,7 @@
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered"><a href="/profile.html"><img src="static/img/anon.jpg" class="img-circle" width="80"></a></p>
+          <p class="centered"><a href="/profile"><img src="static/img/profpicpenny.png" class="img-circle" width="80"></a></p>
           <h5 class="centered"> {{ user_name }} </h5>
           <li class="mt">
             <a class="active" href="/profile">
@@ -102,7 +102,7 @@
               <!-- /col-md-4 -->
               <div class="col-md-6 centered">
                 <div class="profile-pic">
-                  <p><img src="static/img/anon.jpg" class="img-circle"></p>
+                  <p><img src="static/img/profpicpenny.png" class="img-circle"></p>
                 </div>
               </div>
               <!-- /col-md-4 -->
@@ -129,24 +129,7 @@
                           <h4>Education</h4>
                           <div class="recent-activity">
                             <div class="activity-panel">
-                              <canvas id="eduChart" width="280" height="150"></canvas>
-                              <!-- /Extracts text information from wtforms-->
-                              <h4 id="eduTitle" class="hidden"> {{ user_info.course[0].course_title }} </h4>
-                                <script>
-                                  var c = document.getElementById("eduChart");
-                                  // Sets the bubble
-                                  var con = c.getContext("2d");
-                                  con.fillStyle = "blue";
-                                  con.arc(125,75,60,0,2*Math.PI);
-                                  con.fill();
-                                  // Sets the text
-                                  con.fillStyle = "white";
-                                  con.font = "15pt sans-serif";
-                                  con.textAlign = "center";
-                                  // Extract text from html
-                                  var title = document.getElementById("eduTitle")
-                                  con.fillText(title.innerHTML, 125, 83);
-                                </script>
+                              <canvas id="eduChart" data-toggle="modal" data-target="#eduModal" width="280" height="150"></canvas>
                             </div>
                           </div>
                           <!-- /professional experience -->
@@ -160,25 +143,8 @@
                             <h4>Professional Experience</h4>
                             <div class="recent-activity">
                               <div class="activity-panel">
-                               <canvas id="profChart" width="280" height="150">
+                               <canvas id="profChart" data-toggle="modal" data-target="#profModal" width="280" height="150">
                                </canvas>
-                               <!-- /Extracts text information from wtforms-->
-                                <h4 id = "profTitle" class="hidden"> {{ user_info.work_exps[0].company }} </h4>
-                                  <script>
-                                    var c = document.getElementById("profChart");
-                                    // Sets the bubble
-                                    var con = c.getContext("2d");
-                                    con.fillStyle = "teal";
-                                    con.arc(125,75,60,0,2*Math.PI);
-                                    con.fill();
-                                    // Sets the text
-                                    con.fillStyle = "white";
-                                    con.font = "15pt sans-serif";
-                                    con.textAlign = "center";
-                                    // Extract text from html
-                                    var title = document.getElementById("profTitle")
-                                    con.fillText(title.innerHTML , 125, 83);
-                                  </script>
                               </div>
                             </div>
                             <!-- /professional experience -->
@@ -192,24 +158,7 @@
                               <h4>Extracurriculars</h4>
                               <div class="recent-activity">
                                 <div class="activity-panel">
-                                   <canvas id="excChart" width="280" height="150"></canvas>
-                                    <!-- /Extracts text information from wtforms-->
-                                   <h4 id = "excGroup" class= "hidden"> {{ user_info.activity[0].group }} </h4>
-                                    <script>
-                                      var c = document.getElementById("excChart");
-                                      // Sets the bubble
-                                      var con = c.getContext("2d");
-                                      con.fillStyle = "green";
-                                      con.arc(125,75,60,0,2*Math.PI);
-                                      con.fill();
-                                      // Sets the text
-                                      con.fillStyle = "white";
-                                      con.font = "15pt sans-serif";
-                                      con.textAlign = "center";
-                                      // Extract text from html
-                                      var title = document.getElementById("excGroup")
-                                      con.fillText(title.innerHTML, 125, 83);
-                                    </script>
+                                   <canvas id="excChart" data-toggle="modal" data-target="#excModal" width="280" height="150"></canvas>
                                 </div>
                               </div>
                               <!-- /professional experience -->
@@ -244,10 +193,133 @@
   <script src="static/lib/common-scripts.js"></script>
   <script type="text/javascript" src="static/lib/gritter/js/jquery.gritter.js"></script>
   <script type="text/javascript" src="static/lib/gritter-conf.js"></script>
+
+<!-- Edu Modal -->
+<div class="modal fade" id="eduModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ user_info.course[0].course_title }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ user_info.course[0].desc }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Exc Modal -->
+<div class="modal fade" id="excModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ user_info.activity[0].group }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ user_info.activity[0].desc }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Prof Modal -->
+<div class="modal fade" id="profModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ user_info.work_exps[0].company }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ user_info.work_exps[0].desc }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <script>
+
+    // ----------------------BUBBLE CHARTS------------------------------------------------------------------------------------------------
+  // Setting up bubble charts for Education.
+  var courseinfo = '{{user_info.course}}'.split("&#39;");
+  var num = 1;
+  console.log("course info: " + courseinfo);
+  console.log(courseinfo.length);
+  if (courseinfo.length > 13) {
+      num = (courseinfo.length - 13) / 12;
+  }
+  var coursenames = [];
+  for (i = 1; i <= num; i++) {
+      coursenames.push(courseinfo[i*4 - 1]);
+  }
+  console.log("course names: " + coursenames);
+
+  // Bubble chart for the Education Bubble Chart.
+  var c = document.getElementById("eduChart");
+  // Sets the bubble
+  var con = c.getContext("2d");
+  con.fillStyle = "blue";
+  con.arc(125,75,60,0,2*Math.PI);
+  con.fill();
+  // Sets the text
+  con.fillStyle = "white";
+  con.font = "15pt sans-serif";
+  con.textAlign = "center";
+  // Extract text from html
+  var title = '{{ user_info.course[0].course_title }}';
+  con.fillText(title, 125, 83);
+
+  // Bubble chart for the Extra Curricular Bubble Chart.
+  var c = document.getElementById("excChart");
+  // Sets the bubble
+  var con = c.getContext("2d");
+  con.fillStyle = "green";
+  con.arc(125,75,60,0,2*Math.PI);
+  con.fill();
+  // Sets the text
+  con.fillStyle = "white";
+  con.font = "15pt sans-serif";
+  con.textAlign = "center";
+  // Extract text from html
+  var title = '{{ user_info.activity[0].group }}'
+  con.fillText(title, 125, 83);
+
+  // Bubble chart for professional bubble chart.
+  var c = document.getElementById("profChart");
+  // Sets the bubble
+  var con = c.getContext("2d");
+  con.fillStyle = "teal";
+  con.arc(125,75,60,0,2*Math.PI);
+  con.fill();
+  // Sets the text
+  con.fillStyle = "white";
+  con.font = "15pt sans-serif";
+  con.textAlign = "center";
+  // Extract text from html
+  var title = '{{ user_info.work_exps[0].company }}'
+  con.fillText(title, 125, 83);
+
+
+  //-----------------------------------------------END OF BUBBLE CHART CODE----------------------------------------------------
   var input = '{{user_info.skills.types}}'
   console.log(input);
-
   // Parsing out the different skills and then grabbing the top 5
   var result = input.split("&#39;");
   console.log(result)
@@ -257,7 +329,6 @@
       skills.push(result[ind])
     }
   }
-
   // Parsing out the different scores
   var scores = '{{user_info.skills.scores}}';
   var scores_result = scores.slice(1, -1).split(", ");
@@ -266,7 +337,6 @@
   for (ind in scores_result) {
       scores.push(parseInt(scores_result[ind]));
   }
-
   // Grab top 5 skills and scores
   skills = skills.slice(0, 5)
   scores = scores.slice(0, 5)
@@ -283,13 +353,10 @@
                   pointStrokeColor : "#fff",
                   data : scores
               }
-          ]
-
+          ],
       };
       new Chart(document.getElementById("radar").getContext("2d")).Radar(radarChartData);
-
   }();
-
   </script>
   <script src="static/lib/chart-master/Chart.js"></script>
   <!--script for this page-->
@@ -305,7 +372,6 @@
       $("#date-popover").click(function(e) {
         $(this).hide();
       });
-
       $("#my-calendar").zabuto_calendar({
         action: function() {
           return myDateFunction(this.id, false);
@@ -329,7 +395,6 @@
         ]
       });
     });
-
     function myNavFunction(id) {
       $("#date-popover").hide();
       var nav = $("#" + id).data("navigation");
