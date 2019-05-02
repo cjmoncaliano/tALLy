@@ -53,7 +53,7 @@
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered"><a href="/dashboard"><img src="static/img/anon.jpg" class="img-circle" width="80"></a></p>
+          <p class="centered"><a href="/dashboard"><img src="static/img/ui-divya.jpg" class="img-circle" width="80"></a></p>
           <h5 class="centered"> {{user_info.username}} </h5>
           <li class="mt">
             <a class="active" href="/dashboard">
@@ -314,6 +314,10 @@
       });
     });
 
+      function updateCharts(id) {
+        console.log(id)
+      }
+
     function myNavFunction(id) {
       $("#date-popover").hide();
       var nav = $("#" + id).data("navigation");
@@ -321,8 +325,7 @@
       console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
     }
 
-
-    function add_role(role, team) {
+    function add_role(role, team, index) {
         var table = document.getElementsByTagName('tbody')[0];
 
         console.log(table)
@@ -331,7 +334,8 @@
         console.log(td)
         // Create and add new row
         const role_name = document.createElement('label');
-        role_name.innerHTML =  '<a href="basic_table.html#">' + role + '</a>';
+        //" onClick="updateCharts(this.id)"
+        role_name.innerHTML =  '<a id="' + index + '" href="/find_top_matches/' + index + '">' + role + '</a>';
 
         td.appendChild(role_name);
 
@@ -341,41 +345,40 @@
         team_name.innerHTML =  team;
 
         team_td.appendChild(team_name)
-
     }
 
-        var input = '{{roles}}'
-        console.log(input);
+      var input = '{{roles}}'
+      console.log(input);
 
-        // Parsing out the different skills and then grabbing the top 5
-        var result = input.split("&#39;");
-        console.log(result)
-        var roles = []
-        for (ind in result) {
-          if (result[ind] != ", " && result[ind] != "[" && result[ind] != "]") {
-            roles.push(result[ind]);
-          }
+      // Parsing out the different skills and then grabbing the top 5
+      var result = input.split("&#39;");
+      console.log(result)
+      var roles = []
+      for (ind in result) {
+        if (result[ind] != ", " && result[ind] != "[" && result[ind] != "]") {
+          roles.push(result[ind]);
         }
+      }
 
-        var input = '{{teams}}'
-        console.log(input);
+      var input = '{{teams}}'
+      console.log(input);
 
-        // Parsing out the different skills and then grabbing the top 5
-        var result = input.split("&#39;");
-        console.log(result)
-        var teams = []
-        for (ind in result) {
-          if (result[ind] != ", " && result[ind] != "[" && result[ind] != "]") {
-            teams.push(result[ind]);
-          }
+      // Parsing out the different skills and then grabbing the top 5
+      var result = input.split("&#39;");
+      console.log(result)
+      var teams = []
+      for (ind in result) {
+        if (result[ind] != ", " && result[ind] != "[" && result[ind] != "]") {
+          teams.push(result[ind]);
         }
+      }
 
-        console.log(roles);
-        console.log(teams);
+      console.log(roles);
+      console.log(teams);
 
-        for (i in roles) {
-          add_role(roles[i], teams[i]);
-        }
+      for (i in roles) {
+        add_role(roles[i], teams[i], i);
+      }
 
   </script>
 

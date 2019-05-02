@@ -5,6 +5,7 @@ from flask import render_template, redirect, url_for, request
 from flask_login import login_user, logout_user, login_required, current_user
 from tally.classifier.classifier import score_experience, return_skills
 from sklearn import preprocessing
+import numpy as np
 
 import uuid
 ### Login ###
@@ -68,21 +69,25 @@ def input_resume():
     course = CourseWork()
     user_name = db.users.find_one({"id": current_user.get_id()})["username"]
     if form.is_submitted() and work.is_submitted(): #submitting without validating
-        descriptions = []
         print(form.name.data, form.school.data, form.gpa.data, form.major.data, form.email.data, form.phone.data)
         print(work.company.data, work.role.data, work.work_desc.data)
         db.users.find_one_and_update({"id": current_user.get_id()}, {"$set": {"name": form.name.data, "school": form.school.data, "major": form.major.data, "email": form.email.data, "phone": form.phone.data}})
-        if work.company.data != "" and work.company.data is not None:
+        if work.work_desc.data != "" and work.company.data is not None:
             db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"work_exps": {"company": work.company.data, "role": work.role.data, "desc": work.work_desc.data}}}, upsert=True)
-            descriptions.append(work.work_desc.data)
-        if activity.group.data != "" and activity.group.data is not None:
+        if activity.extra_desc.data != "" and activity.group.data is not None:
             db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"activity": {"group": activity.group.data, "role": activity.title.data, "desc": activity.extra_desc.data}}}, upsert=True)
-            descriptions.append(activity.extra_desc.data)
         if course.course_title.data != "" and course.course_title.data is not None:
-            db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"course": {"title": course.course_title.data, "role": course.category.data, "desc": course.course_desc.data}}}, upsert=True)
-            descriptions.append(course.course_desc.data)
+            db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"course": {"course_title": course.course_title.data, "role": course.category.data, "desc": course.course_desc.data}}}, upsert=True)
 
         # Calculate skills according to descriptions given
+        user_info = db.users.find_one({"id": current_user.get_id()})
+        descriptions = []
+        for exp in user_info["work_exps"]:
+            descriptions.append(exp["desc"])
+        for exp in user_info["activity"]:
+            descriptions.append(exp["desc"])
+        for exp in user_info["course"]:
+            descriptions.append(exp["desc"])
         skills, scores = classifier_test(descriptions)
         print(skills, scores)
         sorted_skills = [skills for _,skills in sorted(zip(scores, skills), reverse = True)]
@@ -173,13 +178,45 @@ def classifier_test(descriptions = []):
     scores = [sum(x) for x in zip(*scores_list)]
 
     score_min = min(scores)
-    score_range= max(scores) - score_min
+    score_max = max(scores)
+    score_range= score_max - score_min
 
-    normalized = [(score - score_min) * 10/score_range for score in scores]
+    normalized = [(score) * 10/score_max for score in scores]
     return skills, normalized
 
-def find_top_matches():
-    pass
+@app.route('/find_top_matches/<role_id>', methods = ["GET"])
+def find_top_matches(role_id, n_top = 2):
+    student_scores = []
+    ids = []
+    students = list(db.users.find({"role": "student"}))
+    recruiter_info = db.users.find_one({"id": current_user.get_id()})
+    open_roles = recruiter_info["open_roles"]
+    role_id = int(role_id)
+    role = open_roles[role_id] # find role
+
+    for student in students:
+        scores = student["skills"]["scores"]
+
+        # get scores that match with the skills that matter for the role
+        types = student["skills"]["types"]
+        print(role['qualities'])
+
+        for quality in scores:
+            if quality not in role['qualities']:
+                scores.remove(quality)
+        student_scores.append(sum(scores))
+        ids.append(student["id"])
+    if len(student_scores) < n_top:
+        return str(ids)
+    else:
+        index_scores = np.argsort(student_scores)
+        index_scores = index_scores[::-1]
+        top_ids = []
+        for i in range(n_top):
+            top_ids.append(ids[index_scores[i]])
+        print(top_ids)
+        return str(top_ids)
+
 
 ### Test Server ###
 @app.route('/helloworld')
