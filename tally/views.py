@@ -19,9 +19,17 @@ def load_user(userID):
 @app.route('/dashboard')
 def index():
     print(current_user.get_id())
-    user_info = db.users.find_one({"id": current_user.get_id()})
-    print(user_info)
-    return render_template("index.html", user_info = user_info)
+    user = db.users.find_one({"id": current_user.get_id()})
+    open_roles = user["open_roles"]
+
+    roles = []
+    teams = []
+    for index in range(len(open_roles)):
+        print(index)
+        print(open_roles[index]['role'])
+        roles.append(open_roles[index]['role'])
+        teams.append(open_roles[index]['team'])
+    return render_template("index.html", user_info = user, roles = roles, teams = teams)
     #return render_template("index.html")
 
 @app.route('/', methods=["GET", "POST"])

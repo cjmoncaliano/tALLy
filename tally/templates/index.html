@@ -93,80 +93,9 @@
                       <tr>
                         <th><i class="fa fa-bullhorn"></i> Role </th>
                         <th class="hidden-phone"><i class="fa fa-address-book"></i> Team </th>
-                        <th><i></i> # Applicants </th>
-                        <th><i class=" fa fa-edit"></i> Status</th>
-                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>
-                          <!-- <p>Supply Chain Technology Consultant</p> -->
-                          <a href="basic_table.html#"> {{ user_info.open_roles[1].role}} </a>
-                        </td>
-                        <td class="hidden-phone">Business & Technology Integration</td>
-                        <td> 129 </td>
-                        <td><span class="label label-warning label-mini">Matched</span></td>
-                        <td>
-                          <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                          <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                          <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <a href="basic_table.html#">Database Reporting Analyst</a>
-                        </td>
-                        <td class="hidden-phone"> Performance, Risk and Quality </td>
-                        <td> 352 </td>
-                        <td><span class="label label-warning label-mini">Matched</span></td>
-                        <td>
-                          <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                          <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                          <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <a href="basic_table.html#">
-                            Digital Finance Consultant
-                            </a>
-                        </td>
-                        <td class="hidden-phone"> Management Consulting</td>
-                        <td> 652 </td>
-                        <td><span class="label label-warning label-mini">Matched</span></td>
-                        <td>
-                          <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                          <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                          <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <a href="basic_table.html#">Microservices Technology Consulting Manage</a>
-                        </td>
-                        <td class="hidden-phone">Business & Technology Integration</td>
-                        <td>298</td>
-                        <td><span class="label label-success label-mini">Finished</span></td>
-                        <td>
-                          <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                          <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                          <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <a href="basic_table.html#">Governance Analyst</a>
-                        </td>
-                        <td class="hidden-phone">Security (Federal)</td>
-                        <td> 331 </td>
-                        <td><span class="label label-success label-mini">Finished</span></td>
-                        <td>
-                          <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                          <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                          <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                        </td>
-                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -391,16 +320,65 @@
       var to = $("#" + id).data("to");
       console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
     }
-    
-    
-    function add_role() {
-        var table = document.getElementById("dashboard_table").getElementsByTagName('tbody')[0];
-        var row = table.insertRow(0);
-        var cell1 = row.insertCell(0);
-        var newText = document.createTextNode('{{user_info.open_roles[0].role}}');
-        cell1.appendChild(newText);
+
+
+    function add_role(role, team) {
+        var table = document.getElementsByTagName('tbody')[0];
+
+        console.log(table)
+        const tr = table.insertRow(table.rows.length);
+        const td = tr.insertCell(0);
+        console.log(td)
+        // Create and add new row
+        const role_name = document.createElement('label');
+        role_name.innerHTML =  '<a href="basic_table.html#">' + role + '</a>';
+
+        td.appendChild(role_name);
+
+        const team_td = tr.insertCell(1);
+
+        const team_name = document.createElement('label');
+        team_name.innerHTML =  team;
+
+        team_td.appendChild(team_name)
+
     }
+
+        var input = '{{roles}}'
+        console.log(input);
+
+        // Parsing out the different skills and then grabbing the top 5
+        var result = input.split("&#39;");
+        console.log(result)
+        var roles = []
+        for (ind in result) {
+          if (result[ind] != ", " && result[ind] != "[" && result[ind] != "]") {
+            roles.push(result[ind]);
+          }
+        }
+
+        var input = '{{teams}}'
+        console.log(input);
+
+        // Parsing out the different skills and then grabbing the top 5
+        var result = input.split("&#39;");
+        console.log(result)
+        var teams = []
+        for (ind in result) {
+          if (result[ind] != ", " && result[ind] != "[" && result[ind] != "]") {
+            teams.push(result[ind]);
+          }
+        }
+
+        console.log(roles);
+        console.log(teams);
+
+        for (i in roles) {
+          add_role(roles[i], teams[i]);
+        }
+
   </script>
+
 </body>
 
 </html>
