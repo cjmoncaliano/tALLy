@@ -139,7 +139,7 @@
         background: transparent !important ;
     }
     #sidebar > ul > li > ul.sub > li > a:hover {
-        
+
     }
 
 
@@ -166,10 +166,6 @@
 
 
     /*---------*/
-
-    .modal-footer .btn {
-        margin-bottom: 0px !important;
-    }
 
     .btn {
         margin-bottom: 5px;
@@ -481,7 +477,3 @@
         display: none;
     }
 }
-
-
-
-

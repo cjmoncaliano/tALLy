@@ -129,7 +129,7 @@
                           <h4>Education</h4>
                           <div class="recent-activity">
                             <div class="activity-panel">
-                              <canvas id="eduChart" width="280" height="150"></canvas>
+                              <canvas id="eduChart" data-toggle="modal" data-target="#eduModal" width="280" height="150"></canvas>
                             </div>
                           </div>
                           <!-- /professional experience -->
@@ -143,7 +143,7 @@
                             <h4>Professional Experience</h4>
                             <div class="recent-activity">
                               <div class="activity-panel">
-                               <canvas id="profChart" width="280" height="150">
+                               <canvas id="profChart" data-toggle="modal" data-target="#profModal" width="280" height="150">
                                </canvas>
                               </div>
                             </div>
@@ -158,7 +158,7 @@
                               <h4>Extracurriculars</h4>
                               <div class="recent-activity">
                                 <div class="activity-panel">
-                                   <canvas id="excChart" width="280" height="150"></canvas>
+                                   <canvas id="excChart" data-toggle="modal" data-target="#excModal" width="280" height="150"></canvas>
                                 </div>
                               </div>
                               <!-- /professional experience -->
@@ -194,14 +194,71 @@
   <script type="text/javascript" src="static/lib/gritter/js/jquery.gritter.js"></script>
   <script type="text/javascript" src="static/lib/gritter-conf.js"></script>
 
+<!-- Edu Modal -->
+<div class="modal fade" id="eduModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ user_info.course[0].course_title }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ user_info.course[0].desc }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- Exc Modal -->
+<div class="modal fade" id="excModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ user_info.activity[0].group }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ user_info.activity[0].desc }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Prof Modal -->
+<div class="modal fade" id="profModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ user_info.work_exps[0].company }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ user_info.work_exps[0].desc }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <script>
 
     // ----------------------BUBBLE CHARTS------------------------------------------------------------------------------------------------
   // Setting up bubble charts for Education.
   var courseinfo = '{{user_info.course}}'.split("&#39;");
-  // var courseinfo = courseinfo.split("&#39;");
   var num = 1;
   console.log("course info: " + courseinfo);
   console.log(courseinfo.length);
@@ -229,10 +286,6 @@
   var title = '{{ user_info.course[0].course_title }}';
   con.fillText(title, 125, 83);
 
-  document.getElementById("eduChart").addEventListener('click', () => {
-        alert('{{ user_info.course[0].desc }}');
-  })
-
   // Bubble chart for the Extra Curricular Bubble Chart.
   var c = document.getElementById("excChart");
   // Sets the bubble
@@ -248,10 +301,6 @@
   var title = '{{ user_info.activity[0].group }}'
   con.fillText(title, 125, 83);
 
-  document.getElementById("excChart").addEventListener('click', () => {
-        alert('{{ user_info.activity[0].desc }}');
-  })
-
   // Bubble chart for professional bubble chart.
   var c = document.getElementById("profChart");
   // Sets the bubble
@@ -266,10 +315,6 @@
   // Extract text from html
   var title = '{{ user_info.work_exps[0].company }}'
   con.fillText(title, 125, 83);
-
-  document.getElementById("profChart").addEventListener('click', () => {
-        alert('{{ user_info.work_exps[0].desc }}');
-  })
 
 
   //-----------------------------------------------END OF BUBBLE CHART CODE----------------------------------------------------
