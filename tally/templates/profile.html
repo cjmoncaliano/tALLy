@@ -193,14 +193,17 @@
   <script src="static/lib/common-scripts.js"></script>
   <script type="text/javascript" src="static/lib/gritter/js/jquery.gritter.js"></script>
   <script type="text/javascript" src="static/lib/gritter-conf.js"></script>
+
+
+
   <script>
 
     // ----------------------BUBBLE CHARTS------------------------------------------------------------------------------------------------
   // Setting up bubble charts for Education.
-  var courseinfo = '{{user_info.course}}';
-  var courseinfo = courseinfo.split("&#39;");
+  var courseinfo = '{{user_info.course}}'.split("&#39;");
+  // var courseinfo = courseinfo.split("&#39;");
   var num = 1;
-  console.log(courseinfo);
+  console.log("course info: " + courseinfo);
   console.log(courseinfo.length);
   if (courseinfo.length > 13) {
       num = (courseinfo.length - 13) / 12;
@@ -209,7 +212,7 @@
   for (i = 1; i <= num; i++) {
       coursenames.push(courseinfo[i*4 - 1]);
   }
-  console.log(coursenames);
+  console.log("course names: " + coursenames);
 
   // Bubble chart for the Education Bubble Chart.
   var c = document.getElementById("eduChart");
@@ -226,6 +229,10 @@
   var title = '{{ user_info.course[0].course_title }}';
   con.fillText(title, 125, 83);
 
+  document.getElementById("eduChart").addEventListener('click', () => {
+        alert('{{ user_info.course[0].desc }}');
+  })
+
   // Bubble chart for the Extra Curricular Bubble Chart.
   var c = document.getElementById("excChart");
   // Sets the bubble
@@ -241,6 +248,10 @@
   var title = '{{ user_info.activity[0].group }}'
   con.fillText(title, 125, 83);
 
+  document.getElementById("excChart").addEventListener('click', () => {
+        alert('{{ user_info.activity[0].desc }}');
+  })
+
   // Bubble chart for professional bubble chart.
   var c = document.getElementById("profChart");
   // Sets the bubble
@@ -255,6 +266,11 @@
   // Extract text from html
   var title = '{{ user_info.work_exps[0].company }}'
   con.fillText(title, 125, 83);
+
+  document.getElementById("profChart").addEventListener('click', () => {
+        alert('{{ user_info.work_exps[0].desc }}');
+  })
+
 
   //-----------------------------------------------END OF BUBBLE CHART CODE----------------------------------------------------
   var input = '{{user_info.skills.types}}'
