@@ -1,7 +1,7 @@
 from tally import app, db, login_manager, model
 from tally.forms import ApplicantForm, WorkExperience, ExtraActivity, CourseWork, JobForm, RegistrationForm, LoginForm
 from tally.models import User
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from tally.classifier.classifier import score_experience, return_skills
 from sklearn import preprocessing
@@ -25,12 +25,15 @@ def index():
 
     roles = []
     teams = []
+    qualities= []
     for index in range(len(open_roles)):
         print(index)
         print(open_roles[index]['role'])
         roles.append(open_roles[index]['role'])
+        qualities.append(open_roles[index]['qualities'])
         teams.append(open_roles[index]['team'])
-    return render_template("index.html", user_info = user, roles = roles, teams = teams)
+    print(qualities)
+    return render_template("index.html", user_info = user, roles = roles, teams = teams, qualities = qualities)
     #return render_template("index.html")
 
 @app.route('/', methods=["GET", "POST"])
@@ -51,7 +54,7 @@ def login():
             if user["role"] == "student" and len(user) <=5:
                 return redirect(url_for('input_resume'))
             elif user_obj.role == 'recruiter':
-                return redirect('/dashboard')
+                return redirect('/role_builder')
             else:
                 return redirect(url_for('profile'))
     else:
@@ -212,10 +215,14 @@ def find_top_matches(role_id, n_top = 2):
         index_scores = np.argsort(student_scores)
         index_scores = index_scores[::-1]
         top_ids = []
+        user_info_list = []
         for i in range(n_top):
-            top_ids.append(ids[index_scores[i]])
-        print(top_ids)
-        return str(top_ids)
+            #top_ids.append(ids[index_scores[i]])
+            user_info = db.users.find_one({"id": ids[index_scores[i]]})
+            user_info_list.append(user_info["id"])
+            user_info_list.append(user_info["name"])
+            user_info_list.append(user_info["skills"])
+        return str(user_info_list)
 
 
 ### Test Server ###
