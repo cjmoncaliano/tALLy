@@ -18,12 +18,12 @@ class CourseWork(FlaskForm):
     course_desc = StringField('Description')
 
 class ApplicantForm(FlaskForm):
-    name = StringField('Full Name', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired()])
-    school = StringField('School', validators=[DataRequired()])
-    gpa = StringField('GPA', validators=[DataRequired()])
-    major = StringField('Major(s)/Minor(s)', validators=[DataRequired()])
-    phone = StringField('Phone Number', validators=[DataRequired()])
+    name = StringField('Full Name')
+    email = StringField('Email')
+    school = StringField('School')
+    gpa = StringField('GPA')
+    major = StringField('Major(s)/Minor(s)')
+    phone = StringField('Phone Number')
     submit = SubmitField('Submit')
 
 class JobForm(FlaskForm):

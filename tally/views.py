@@ -1,7 +1,7 @@
 from tally import app, db, login_manager, model
 from tally.forms import ApplicantForm, WorkExperience, ExtraActivity, CourseWork, JobForm, RegistrationForm, LoginForm
 from tally.models import User
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from tally.classifier.classifier import score_experience, return_skills
 from sklearn import preprocessing
@@ -20,9 +20,20 @@ def load_user(userID):
 @app.route('/dashboard')
 def index():
     print(current_user.get_id())
-    user_info = db.users.find_one({"id": current_user.get_id()})
-    print(user_info)
-    return render_template("index.html", user_info = user_info)
+    user = db.users.find_one({"id": current_user.get_id()})
+    open_roles = user["open_roles"]
+
+    roles = []
+    teams = []
+    qualities= []
+    for index in range(len(open_roles)):
+        print(index)
+        print(open_roles[index]['role'])
+        roles.append(open_roles[index]['role'])
+        qualities.append(open_roles[index]['qualities'])
+        teams.append(open_roles[index]['team'])
+    print(qualities)
+    return render_template("index.html", user_info = user, roles = roles, teams = teams, qualities = qualities)
     #return render_template("index.html")
 
 @app.route('/', methods=["GET", "POST"])
@@ -43,7 +54,7 @@ def login():
             if user["role"] == "student" and len(user) <=5:
                 return redirect(url_for('input_resume'))
             elif user_obj.role == 'recruiter':
-                return redirect('/dashboard')
+                return redirect('/role_builder')
             else:
                 return redirect(url_for('profile'))
     else:
@@ -68,10 +79,8 @@ def input_resume():
             db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"work_exps": {"company": work.company.data, "role": work.role.data, "desc": work.work_desc.data}}}, upsert=True)
         if activity.extra_desc.data != "" and activity.group.data is not None:
             db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"activity": {"group": activity.group.data, "role": activity.title.data, "desc": activity.extra_desc.data}}}, upsert=True)
-            descriptions.append(activity.extra_desc.data)
         if course.course_title.data != "" and course.course_title.data is not None:
             db.users.find_one_and_update({"id": current_user.get_id()}, {"$push": {"course": {"course_title": course.course_title.data, "role": course.category.data, "desc": course.course_desc.data}}}, upsert=True)
-            descriptions.append(course.course_desc.data)
 
         # Calculate skills according to descriptions given
         user_info = db.users.find_one({"id": current_user.get_id()})
@@ -178,24 +187,50 @@ def classifier_test(descriptions = []):
     normalized = [(score) * 10/score_max for score in scores]
     return skills, normalized
 
-@app.route('/test_matching')
-def find_top_matches(n_top = 3):
+@app.route('/find_top_matches/<role_id>', methods = ["GET"])
+def find_top_matches(role_id, n_top = 2):
     student_scores = []
     ids = []
     students = list(db.users.find({"role": "student"}))
+    recruiter_info = db.users.find_one({"id": current_user.get_id()})
+    open_roles = recruiter_info["open_roles"]
+    role_id = int(role_id)
+    role = open_roles[role_id] # find role
+
     for student in students:
         scores = student["skills"]["scores"]
-        student_scores.append(sum(scores))
+
+        # get scores that match with the skills that matter for the role
+        types = student["skills"]["types"]
+
+        scores_2 = []
+        for ind in range(len(types)):
+            if types[ind] in role['qualities']:
+                scores_2.append(scores[ind])
+
+        student_scores.append(sum(scores_2))
         ids.append(student["id"])
+
     if len(student_scores) < n_top:
-        return str(ids)
+        min_len = len(student_scores)
     else:
-        index_scores = np.argsort(student_scores)
-        index_scores = index_scores[::-1]
-        top_ids = []
-        for i in range(n_top):
-            top_ids.append(ids[index_scores[i]])
-        return str(top_ids)
+        min_len = n_top
+
+    index_scores = np.argsort(student_scores)
+    index_scores = index_scores[::-1]
+    top_ids = []
+    user_info_list = []
+    print(student_scores)
+    print(index_scores)
+    for i in range(min_len):
+        #top_ids.append(ids[index_scores[i]])
+        user_info = db.users.find_one({"id": ids[index_scores[i]]})
+        user_info_list.append(user_info["id"])
+        user_info_list.append(user_info["name"])
+        print(student_scores[i])
+        print(user_info["name"])
+        user_info_list.append(user_info["skills"])
+    return str(user_info_list)
 
 
 ### Test Server ###
