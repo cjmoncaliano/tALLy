@@ -211,7 +211,11 @@
   }
   console.log(coursenames);
 
+<<<<<<< HEAD
   // Bubble chart for the Education Bubble Chart. 
+=======
+  // Bubble chart for the Education Bubble Chart.
+>>>>>>> fb12d4adcfbfc5482426d9854cb8bf07d7d8ba96
   var c = document.getElementById("eduChart");
   // Sets the bubble
   var con = c.getContext("2d");
@@ -223,7 +227,11 @@
   con.font = "15pt sans-serif";
   con.textAlign = "center";
   // Extract text from html
+<<<<<<< HEAD
   var title = '{{ user_info.course[0].title }}';
+=======
+  var title = '{{ user_info.course[0].course_title }}';
+>>>>>>> fb12d4adcfbfc5482426d9854cb8bf07d7d8ba96
   con.fillText(title, 125, 83);
 
   // Bubble chart for the Extra Curricular Bubble Chart.
