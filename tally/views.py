@@ -202,27 +202,35 @@ def find_top_matches(role_id, n_top = 2):
 
         # get scores that match with the skills that matter for the role
         types = student["skills"]["types"]
-        print(role['qualities'])
 
-        for quality in scores:
-            if quality not in role['qualities']:
-                scores.remove(quality)
-        student_scores.append(sum(scores))
+        scores_2 = []
+        for ind in range(len(types)):
+            if types[ind] in role['qualities']:
+                scores_2.append(scores[ind])
+
+        student_scores.append(sum(scores_2))
         ids.append(student["id"])
+
     if len(student_scores) < n_top:
-        return str(ids)
+        min_len = len(student_scores)
     else:
-        index_scores = np.argsort(student_scores)
-        index_scores = index_scores[::-1]
-        top_ids = []
-        user_info_list = []
-        for i in range(n_top):
-            #top_ids.append(ids[index_scores[i]])
-            user_info = db.users.find_one({"id": ids[index_scores[i]]})
-            user_info_list.append(user_info["id"])
-            user_info_list.append(user_info["name"])
-            user_info_list.append(user_info["skills"])
-        return str(user_info_list)
+        min_len = n_top
+
+    index_scores = np.argsort(student_scores)
+    index_scores = index_scores[::-1]
+    top_ids = []
+    user_info_list = []
+    print(student_scores)
+    print(index_scores)
+    for i in range(min_len):
+        #top_ids.append(ids[index_scores[i]])
+        user_info = db.users.find_one({"id": ids[index_scores[i]]})
+        user_info_list.append(user_info["id"])
+        user_info_list.append(user_info["name"])
+        print(student_scores[i])
+        print(user_info["name"])
+        user_info_list.append(user_info["skills"])
+    return str(user_info_list)
 
 
 ### Test Server ###
