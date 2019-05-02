@@ -25,7 +25,9 @@ def index():
 
     roles = []
     teams = []
-    qualities= []
+
+    qualities = []
+
     for index in range(len(open_roles)):
         print(index)
         print(open_roles[index]['role'])
@@ -227,8 +229,8 @@ def find_top_matches(role_id, n_top = 2):
         user_info = db.users.find_one({"id": ids[index_scores[i]]})
         user_info_list.append(user_info["id"])
         user_info_list.append(user_info["name"])
-        print(student_scores[i])
         print(user_info["name"])
+        print(student_scores[i])
         user_info_list.append(user_info["skills"])
     return str(user_info_list)
 
