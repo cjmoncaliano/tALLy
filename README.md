@@ -1,6 +1,16 @@
 # Candor
 
-How to run:  
+## Tech Stack:
+- Flask
+- Python
+- MongoDB
+- JavaScript
+
+## Core Skills Extraction & Matching Algorithm:
+- Word2Vec
+- Clustering
+
+### How to run:  
 1. Go to db folder
 2. Run startup.sh to start MongoDB
 3. Go back to root directory
@@ -12,3 +22,10 @@ How to run on Windows:
 where your tally data path should be something like: C:/code/tALLy/db/data
 3. In a new terminal window, go to root tally directory
 4. Run python run.py
+
+## The Team
+@yhu44
+-- @cjmoncaliano
+-- @rguo123
+-- @daya-lu
+-- @Frank-Miao20
