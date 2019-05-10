@@ -141,18 +141,6 @@ def register():
             "role": form.role.data,
             "id": id,
         })
-        if form.role.data == 'recruiter':
-            db.users.find_one_and_update({
-                "id": id},
-                {"$push": {"open_roles": {
-                    "company": None,
-                    "role": None,
-                    "team": None,
-                    "desc": None,
-                    "deadline": None,
-                    "major": None,
-                    "qualities": None,
-                    "grad_year": None}}}, upsert=True)
         return redirect(url_for('login'))
     else:
         print(form.errors)
