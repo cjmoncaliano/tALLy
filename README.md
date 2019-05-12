@@ -1,5 +1,8 @@
 # Candor
 
+## Video Demo
+https://drive.google.com/file/d/1mmi2WwLdmpJzqfnF1eDw4pKpisylRdrn/view?usp=sharing
+
 ## Tech Stack:
 - Flask
 - Python
